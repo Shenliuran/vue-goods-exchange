@@ -39,14 +39,23 @@
           </v-btn>
           <!--register evnet-->
           <v-btn
-            @click="register"
+            @click="registering"
           >
             注册
           </v-btn>
           <v-spacer/>
         </v-card-actions>
       </v-card>
-
+      <!--logging panel-->
+      <logging
+        v-else-if="status == US.LOGGING"
+        @loggingBackListener="status = US.IS_NOT_LOGIN"
+      />
+      <!--registering panel-->
+      <registering
+        v-else-if="status == US.REGISTERING"
+        @registeringBackListener="status = US.IS_NOT_LOGIN"
+      />
     </v-dialog>
   </v-app>
 </template>
@@ -55,8 +64,15 @@
 import { Vue, Component, Prop, Emit } from "vue-property-decorator";
 import UserStatusSequence from "@/global/user-status-sequence";
 import { USER_STATUS } from "@/global/constants";
+import Logging from "./logging.vue"
+import Registering from "./registering.vue"
 
-@Component
+@Component({
+  components: {
+    Logging,
+    Registering
+  }
+})
 export default class AlertMessage extends Vue {
   //props values
   @Prop({
@@ -64,13 +80,21 @@ export default class AlertMessage extends Vue {
     required: false
   })
   isBackstageClicked!: boolean //father component's value
+
   //data values
   US: Object = USER_STATUS
   status: number = USER_STATUS.IS_NOT_LOGIN
   uss: object = UserStatusSequence
+
   //click event
   @Emit("alertMessageQuit")
   close() {}
+  logging() {
+    this.status = USER_STATUS.LOGGING
+  }
+  registering() {
+    this.status = USER_STATUS.REGISTERING
+  }
 }
 </script>
 

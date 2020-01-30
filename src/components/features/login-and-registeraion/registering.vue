@@ -5,7 +5,7 @@
     elevation="24"
   >
     <v-card-title>
-      <h3>{{uss.logging.text}}</h3>
+      <h3>{{uss.registering.text}}</h3>
       <v-spacer/>
       <!--back button, return alert-message-->
       <v-btn
@@ -15,7 +15,7 @@
         <v-icon>mdi-arrow-left-circle</v-icon>
       </v-btn>
     </v-card-title>
-    <!--login form-->
+    <!--register form-->
     <v-card-text>
       <v-form>
         <v-text-field
@@ -25,19 +25,25 @@
           name="name"
         />
         <v-text-field
-          prepend-icon="mdi-lock"
+          prepend-icon="mdi-lock-question"
           type="text"
           label="password"
           name="password"
         />
+        <v-text-field
+          prepend-icon="mdi-lock"
+          type="text"
+          label="confirm password"
+          name="confirm password"
+        />
       </v-form>
     </v-card-text>
-    <!--login button-->
+    <!--register button-->
     <v-card-actions>
       <v-btn
-        @click="onLoginClick"
+        @click="onRegisterClick"
       >
-        Login
+        Register
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -49,14 +55,14 @@ import USS from "@/global/user-status-sequence";
 import { USER_STATUS } from "@/global/constants"
 
 @Component
-export default class Logging extends Vue{
+export default class Registering extends Vue {
   //data values
   uss: object = USS
   US: object = USER_STATUS
 
   //click event
-  onLoginClick() {}
-  @Emit("loggingBackListener")
+  onRegisterClick() {}
+  @Emit("registeringBackListener")
   back() {}
 }
 </script>
