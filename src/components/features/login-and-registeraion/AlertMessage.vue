@@ -37,9 +37,9 @@
           >
             登录
           </v-btn>
-          <!--register evnet-->
+          <!-- register evnet-->
           <v-btn
-            @click="registering"
+            to="/"
           >
             注册
           </v-btn>
@@ -47,12 +47,12 @@
         </v-card-actions>
       </v-card>
       <!--logging panel-->
-      <logging
+      <login-form
         v-else-if="status == US.LOGGING"
         @loggingBackListener="status = US.IS_NOT_LOGIN"
       />
       <!--registering panel-->
-      <registering
+      <register-form
         v-else-if="status == US.REGISTERING"
         @registeringBackListener="status = US.IS_NOT_LOGIN"
       />
@@ -64,13 +64,13 @@
 import { Vue, Component, Prop, Emit } from "vue-property-decorator";
 import UserStatusSequence from "@/global/user-status-sequence";
 import { USER_STATUS } from "@/global/constants";
-import Logging from "./logging.vue"
-import Registering from "./registering.vue"
+import LoginForm from "./LoginForm.vue"
+import RegisterForm from "./RegisterForm.vue"
 
 @Component({
   components: {
-    Logging,
-    Registering
+    LoginForm,
+    RegisterForm
   }
 })
 export default class AlertMessage extends Vue {
@@ -82,16 +82,31 @@ export default class AlertMessage extends Vue {
   isBackstageClicked!: boolean //father component's value
 
   //data values
-  US: Object = USER_STATUS
-  status: number = USER_STATUS.IS_NOT_LOGIN
-  uss: object = UserStatusSequence
-
+  US: Object = USER_STATUS // user status constants
+  status: number = USER_STATUS.IS_NOT_LOGIN // local current user status
+  uss: object = UserStatusSequence // user status sequence
+  username!: string //user name cache
+  password!: string //user password cache
   //click event
-  @Emit("alertMessageQuit")
+  /**
+   * alert-message quit event
+   */
+  @Emit("alertMessageQuitListener")
   close() {}
+  /**
+   * user information transimition event
+   * @param username
+   * @param password
+   */
+  /**
+   * click login button event
+   */
   logging() {
     this.status = USER_STATUS.LOGGING
   }
+  /**
+   * click register button event
+   */
   registering() {
     this.status = USER_STATUS.REGISTERING
   }

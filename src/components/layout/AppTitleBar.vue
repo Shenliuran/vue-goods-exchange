@@ -47,8 +47,9 @@
       <message-bell/>
       <!--call dialog message:you haven't logged-->
       <alert-message
+        v-if="userStatus == US.IS_NOT_LOGIN"
         v-bind:isBackstageClicked="isBackstageClicked"
-        @alertMessageQuit="alertMessageQuitListener"
+        @alertMessageQuitListener="alertMessageQuit"
       />
       <!--call backstage center-->
     </v-app-bar>
@@ -57,23 +58,25 @@
 
 <script lang='ts'>
 import { Vue, Component } from 'vue-property-decorator';
-import AlertMessage from "@/components/features/login-and-registeraion/alert-message.vue"
+import AlertMessage from "@/components/features/login-and-registeraion/AlertMessage.vue"
 import UserStatusSequence from "@/global/user-status-sequence";
-import MessageBell from "@/components/features/notification/message-bell.vue"
+import MessageBell from "@/components/features/notification/MessageBell.vue"
+import { USER_STATUS } from "@/global/constants";
 
 @Component({
   components: {
     AlertMessage,
-    MessageBell
+    MessageBell,
   }
 })
 export default class AppTitleBar extends Vue{
-  //props values
   //data values
   isBackstageClicked: boolean = false //whether the backstage clicked
   isMessageBellClicked: boolean = false //whether the message bell clicked
   drawer: boolean = false //whether show the navigation drawer
   uss: object = UserStatusSequence// status information sequence
+  US: object = USER_STATUS// user status constants
+  userStatus: number = USER_STATUS.IS_NOT_LOGIN // current user's status, the initial values is IS_NOT_LOGIN
 
   //click event
   /**
@@ -81,6 +84,14 @@ export default class AppTitleBar extends Vue{
    */
   onBackstageClick() {
     this.isBackstageClicked = true
+    //if the global loginStatus is normal user,
+    //show the normal user backstage center after clicking the button
+    if (Number(this.$route.query.loginStatus) == USER_STATUS.LOGGED.NORMAL)
+      this.$router.push({ path: "/normal-user" })
+    // if match the adminstrater.
+    //show the adminstrater backstage center after clicking the button
+    else if (Number(this.$route.query.loginStatus) == USER_STATUS.LOGGED.ADMINISTRATER)
+      this.$router.push({ path: "/adminstrater" })
   }
   /**
    * message bell button click event
@@ -88,9 +99,11 @@ export default class AppTitleBar extends Vue{
   onMessageBellClick() {
     this.isMessageBellClicked = true
   }
-  
-  //listener
-  alertMessageQuitListener() {
+  //accept
+  /**
+   * alert-message quit action
+   */
+  alertMessageQuit() {
     this.isBackstageClicked = false
   }
 }

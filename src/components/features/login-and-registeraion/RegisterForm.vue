@@ -5,6 +5,8 @@
     elevation="24"
   >
     <v-card-title>
+      <v-icon>{{uss.registering.icon}}</v-icon>
+      <v-spacer/>
       <h3>{{uss.registering.text}}</h3>
       <v-spacer/>
       <!--back button, return alert-message-->
@@ -55,7 +57,7 @@ import USS from "@/global/user-status-sequence";
 import { USER_STATUS } from "@/global/constants"
 
 @Component
-export default class Registering extends Vue {
+export default class RegisterForm extends Vue {
   //data values
   uss: object = USS
   US: object = USER_STATUS

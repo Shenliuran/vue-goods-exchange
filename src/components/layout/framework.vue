@@ -4,7 +4,7 @@
 
 <script lang='ts'>
 import { Vue, Component } from 'vue-property-decorator';
-import AppTitleBar from './app-title-bar.vue'
+import AppTitleBar from './AppTitleBar.vue'
 
 @Component({
   components: {
