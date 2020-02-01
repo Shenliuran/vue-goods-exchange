@@ -73,7 +73,6 @@ export default class LoginForm extends Vue{
         password: this.password
       }
     })
-    this.submitUserStatus(USER_STATUS.LOGGED.NORMAL)
   }
   /**
    * click back button event

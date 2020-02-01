@@ -20,11 +20,6 @@ const routes = [
     name: "normal-user",
     component: () => import(/**/ "../components/features/backstage/normal/NormalUser.vue")
   }
-  // {
-  //   path: "/login-form",
-  //   name: "login-form",
-  //   component: () => import(/**/"../components/features/login-and-registeraion/LoginForm.vue")
-  // }
 ]
 
 const router = new VueRouter({
