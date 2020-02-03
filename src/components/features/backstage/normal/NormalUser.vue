@@ -20,14 +20,15 @@
               <v-avatar>
                 <v-icon>mdi-account-circle</v-icon>
               </v-avatar>
-              <p>{{this.$route.params.username}}</p>
+              <!--test field-->
+              <p>{{username}}</p>
             </v-col>
             </v-row>
           </v-subheader>
         </v-container>
         <!--normal user close event-->
         <v-btn
-          @click="afterClose"
+          to="/home"
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -65,18 +66,22 @@ import { USER_STATUS } from "@/global/constants"
 export default class NormalUser extends Vue {
   //data values
   uss: object = USS
-  loginStatus: number = USER_STATUS.LOGGED.NORMAL //set global loginStatus for normal user
+  loginStatus: string = USER_STATUS.LOGGED.NORMAL //set global loginStatus for normal user
   drawer: boolean = false //whether show the navigation drawer
+  username!: string //normal user's name
+  password!: string //normal user's password
+
+  //life circle
+  /**
+   * before create this vue instance
+   */
+  beforeCreate() {
+    //get user information via vuex getters
+    this.username = this.$store.getters.getUsername
+    this.password = this.$store.getters.getPassword
+  }
 
   //click event
-  afterClose() {
-    this.$router.push({
-      name: "app-title-bar",
-      query: {
-        loginStatus: this.loginStatus.toString()
-      }
-    })
-  }
 }
 </script>
 

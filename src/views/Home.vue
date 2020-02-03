@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <frame-work/>
-    <!-- <router-view></router-view> -->
+    <!--main framework
+      including:
+        app-title-bar
+        showcase
+      submit data via v-bind
+    -->
+    <framework/>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 // @ is an alias to /src
-import FrameWork from '@/components/layout/Framework.vue'
+import Framework from '@/components/layout/Framework.vue'
+import { Vue, Emit, Component, Prop } from "vue-property-decorator"
 
-export default {
-  name: 'home',
+@Component({
   components: {
-    FrameWork
+    Framework
   }
+})
+export default class Home extends Vue {
 }
 </script>

@@ -25,18 +25,21 @@
           type="text"
           label="name"
           name="name"
+          v-model="username"
         />
         <v-text-field
           prepend-icon="mdi-lock-question"
           type="text"
           label="password"
           name="password"
+          v-model="password"
         />
         <v-text-field
           prepend-icon="mdi-lock"
           type="text"
           label="confirm password"
           name="confirm password"
+          v-model="confirmPassword"
         />
       </v-form>
     </v-card-text>
@@ -61,9 +64,15 @@ export default class RegisterForm extends Vue {
   //data values
   uss: object = USS
   US: object = USER_STATUS
+  username!: string
+  password!: string
+  confirmPassword!: string
 
   //click event
-  onRegisterClick() {}
+  onRegisterClick() {
+    this.$store.commit("setUsername", this.username)
+    this.$store.commit("setPassword", this.password)
+  }
   @Emit("registeringBackListener")
   back() {}
 }

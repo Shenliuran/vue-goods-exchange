@@ -6,9 +6,23 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '',
+    path: '/home',
     name: 'home',
     component: Home
+  },
+  {
+    path: "/",
+    redirect: "/home"
+  },
+  {
+    path: "/framework",
+    name: "framework",
+    component: () => import(/** */ "../components/layout/Framework.vue")
+  },
+  {
+    path: "/showcase",
+    name: "showcase",
+    component: () => import(/** */ "../components/layout/Showcase.vue")
   },
   {
     path: "/app-title-bar",

@@ -83,7 +83,7 @@ export default class AlertMessage extends Vue {
 
   //data values
   US: Object = USER_STATUS // user status constants
-  status: number = USER_STATUS.IS_NOT_LOGIN // local current user status
+  status: string = USER_STATUS.IS_NOT_LOGIN // local current user status
   uss: object = UserStatusSequence // user status sequence
   username!: string //user name cache
   password!: string //user password cache

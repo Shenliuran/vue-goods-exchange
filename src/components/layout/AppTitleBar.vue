@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-app>
     <!--homepage naviagtion drawer-->
     <v-navigation-drawer
       v-model="drawer"
@@ -33,6 +33,8 @@
       />
       <v-container>
         <v-spacer/>
+        <!--test field-->
+        <!-- {{this.$route.params.username}} -->
       </v-container>
       <!--backstage center button-->
       <v-btn
@@ -47,17 +49,17 @@
       <message-bell/>
       <!--call dialog message:you haven't logged-->
       <alert-message
-        v-if="userStatus == US.IS_NOT_LOGIN"
+        v-if="this.$store.getters.getStatus == US.IS_NOT_LOGIN"
         v-bind:isBackstageClicked="isBackstageClicked"
         @alertMessageQuitListener="alertMessageQuit"
       />
       <!--call backstage center-->
     </v-app-bar>
-  </div>
+  </v-app>
 </template>
 
 <script lang='ts'>
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import AlertMessage from "@/components/features/login-and-registeraion/AlertMessage.vue"
 import UserStatusSequence from "@/global/user-status-sequence";
 import MessageBell from "@/components/features/notification/MessageBell.vue"
@@ -70,13 +72,14 @@ import { USER_STATUS } from "@/global/constants";
   }
 })
 export default class AppTitleBar extends Vue{
+  //prop values
   //data values
   isBackstageClicked: boolean = false //whether the backstage clicked
   isMessageBellClicked: boolean = false //whether the message bell clicked
   drawer: boolean = false //whether show the navigation drawer
   uss: object = UserStatusSequence// status information sequence
   US: object = USER_STATUS// user status constants
-  userStatus: number = USER_STATUS.IS_NOT_LOGIN // current user's status, the initial values is IS_NOT_LOGIN
+  // userStatus: string = USER_STATUS.IS_NOT_LOGIN // current user's status, the initial values is IS_NOT_LOGIN
 
   //click event
   /**
@@ -86,11 +89,11 @@ export default class AppTitleBar extends Vue{
     this.isBackstageClicked = true
     //if the global loginStatus is normal user,
     //show the normal user backstage center after clicking the button
-    if (Number(this.$route.query.loginStatus) == USER_STATUS.LOGGED.NORMAL)
+    if (this.$store.getters.getStatus == USER_STATUS.LOGGED.NORMAL)
       this.$router.push({ path: "/normal-user" })
     // if match the adminstrater.
     //show the adminstrater backstage center after clicking the button
-    else if (Number(this.$route.query.loginStatus) == USER_STATUS.LOGGED.ADMINISTRATER)
+    else if (this.$store.getters.getStatus == USER_STATUS.LOGGED.ADMINISTRATER)
       this.$router.push({ path: "/adminstrater" })
   }
   /**

@@ -4,8 +4,11 @@
     loading="info"
     elevation="24"
   >
+  <!--login form title-->
     <v-card-title>
       <v-icon>{{uss.logging.icon}}</v-icon>
+      <!--test field-->
+      <!-- <span>{{this.$store.getters.getUsername}}</span> -->
       <v-spacer/>
       <h3>{{uss.logging.text}}</h3>
       <v-spacer/>
@@ -51,6 +54,7 @@
 import { Vue, Emit, Component, Prop } from "vue-property-decorator";
 import USS from "@/global/user-status-sequence";
 import { USER_STATUS } from "@/global/constants"
+import { State, Action, Getter } from "vuex-class";
 
 @Component
 export default class LoginForm extends Vue{
@@ -65,32 +69,20 @@ export default class LoginForm extends Vue{
    * click login event
    */
   onLoginClick() {
-    this.submitUserInfo(this.name, this.password)
     this.$router.push({
-      name: "normal-user",
-      params: {
-        username: this.name,
-        password: this.password
-      }
+      path: "/home",
     })
+    this.$store.commit("setUsername", this.name)
+    this.$store.commit("setPassword", this.password)
+    this.$store.commit("setStatus", USER_STATUS.LOGGED.NORMAL)
+  }
+  public computed() {
   }
   /**
    * click back button event
    */
   @Emit("loggingBackListener")
   back() {}
-  /**
-   * submit the user login informantion to backstage center
-   * @param username
-   * @param password
-   */
-  @Emit("userInfoForwardListener")
-  submitUserInfo(username: string, password: string) {}
-  /**
-   * submit current user status
-   */
-  @Emit("userStatusForwardListener")
-  submitUserStatus(userStatus: number) {}
 }
 </script>
 
