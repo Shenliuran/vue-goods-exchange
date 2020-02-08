@@ -55,7 +55,12 @@ import { Vue, Emit, Component, Prop } from "vue-property-decorator";
 import USS from "@/global/user-status-sequence";
 import { USER_STATUS } from "@/global/constants"
 import { State, Action, Getter } from "vuex-class";
+import UserStatus from "@/store/modules/UserStatus";
+import UserProfile from "@/store/modules/UserProfile"
+import { getModule } from 'vuex-module-decorators';
 
+const $us = getModule(UserStatus)
+const $up = getModule(UserProfile)
 @Component
 export default class LoginForm extends Vue{
   //data values
@@ -63,21 +68,24 @@ export default class LoginForm extends Vue{
   US: object = USER_STATUS
   name: string = "" // the input value of name
   password: string = "" // the input value of password
-  // testfield: string = this.$route.params.username // the temparory test field via route
+  seen: string = ""
+
+
   //click event
   /**
    * click login event
    */
   onLoginClick() {
     this.$router.push({
-      path: "/home",
+      path: "/normal-user"
     })
-    this.$store.commit("setUsername", this.name)
-    this.$store.commit("setPassword", this.password)
-    this.$store.commit("setStatus", USER_STATUS.LOGGED.NORMAL)
+    $up.setBasicUserProfile({
+      username: this.name,
+      password: this.password
+    })
+    $us.setStatus(USER_STATUS.LOGGED.NORMAL)
   }
-  public computed() {
-  }
+
   /**
    * click back button event
    */

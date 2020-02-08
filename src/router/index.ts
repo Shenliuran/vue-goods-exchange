@@ -8,16 +8,11 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: Home
+    component: Home,
   },
   {
     path: "/",
     redirect: "/home"
-  },
-  {
-    path: "/framework",
-    name: "framework",
-    component: () => import(/** */ "../components/layout/Framework.vue")
   },
   {
     path: "/showcase",

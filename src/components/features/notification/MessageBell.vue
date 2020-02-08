@@ -4,7 +4,6 @@
       <template v-slot:activator="{ on }">
         <v-btn
           icon
-          dark
           large
           v-on="on"
         >

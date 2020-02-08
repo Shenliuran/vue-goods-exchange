@@ -34,7 +34,7 @@
       <v-container>
         <v-spacer/>
         <!--test field-->
-        <!-- {{this.$route.params.username}} -->
+        <!-- user current status:{{usrStatus}} -->
       </v-container>
       <!--backstage center button-->
       <v-btn
@@ -49,7 +49,7 @@
       <message-bell/>
       <!--call dialog message:you haven't logged-->
       <alert-message
-        v-if="this.$store.getters.getStatus == US.IS_NOT_LOGIN"
+        v-if="usrStatus == US.IS_NOT_LOGIN"
         v-bind:isBackstageClicked="isBackstageClicked"
         @alertMessageQuitListener="alertMessageQuit"
       />
@@ -64,7 +64,10 @@ import AlertMessage from "@/components/features/login-and-registeraion/AlertMess
 import UserStatusSequence from "@/global/user-status-sequence";
 import MessageBell from "@/components/features/notification/MessageBell.vue"
 import { USER_STATUS } from "@/global/constants";
+import { getModule } from 'vuex-module-decorators';
+import UserStatus from "@/store/modules/UserStatus"
 
+const $us = getModule(UserStatus)
 @Component({
   components: {
     AlertMessage,
@@ -79,21 +82,27 @@ export default class AppTitleBar extends Vue{
   drawer: boolean = false //whether show the navigation drawer
   uss: object = UserStatusSequence// status information sequence
   US: object = USER_STATUS// user status constants
-  // userStatus: string = USER_STATUS.IS_NOT_LOGIN // current user's status, the initial values is IS_NOT_LOGIN
+  usrStatus!: string // current user's status, the initial values is IS_NOT_LOGIN
 
+  //life circle
+  created() {
+    this.usrStatus = $us.getStatus
+  }
   //click event
   /**
    * backstage button click event
    */
   onBackstageClick() {
     this.isBackstageClicked = true
+
     //if the global loginStatus is normal user,
     //show the normal user backstage center after clicking the button
-    if (this.$store.getters.getStatus == USER_STATUS.LOGGED.NORMAL)
+    if ($us.getStatus == USER_STATUS.LOGGED.NORMAL)
       this.$router.push({ path: "/normal-user" })
+
     // if match the adminstrater.
     //show the adminstrater backstage center after clicking the button
-    else if (this.$store.getters.getStatus == USER_STATUS.LOGGED.ADMINISTRATER)
+    else if ($us.getStatus == USER_STATUS.LOGGED.ADMINISTRATER)
       this.$router.push({ path: "/adminstrater" })
   }
   /**
