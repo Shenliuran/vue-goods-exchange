@@ -1,16 +1,22 @@
 <template>
   <v-app>
     <!--test field-->
-    <li v-for="(item, index) in items" v-bind:key="index">
+    <!-- <li v-for="(item, index) in items" v-bind:key="index">
       {{item.text}}
-    </li>
+    </li> -->
+    <goods-set/>
   </v-app>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator"
+import GoodsSet from "@/components/features/showcase/GoodsSet.vue"
 
-@Component
+@Component({
+  components: {
+    GoodsSet
+  }
+})
 export default class Showcase extends Vue {
   //prop value
   @Prop({

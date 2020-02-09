@@ -116,9 +116,21 @@
                   <v-btn
                     class="mx-0 font-weight-light"
                     color="success"
+                    @click="updateProfile"
                   >
                     Update Profile
                   </v-btn>
+                  <v-snackbar
+                    top
+                    v-model="snackbar"
+                  >
+                    update successful
+                    <v-btn
+                      @click="snackbar = !snackbar"
+                    >
+                      Close
+                    </v-btn>
+                  </v-snackbar>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -135,18 +147,16 @@
             class="mx-auto d-block"
             size="130"
           >
-            {{username}} : {{password}}
           </v-avatar>
           <v-card-text class="text-xs-center">
             <h6 class="category text-gray font-weight-thin mb-3">CEO / CO-FOUNDER</h6>
-            <h4 class="card-title font-weight-light">Alec Thompson</h4>
-            <p class="card-description font-weight-light">Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...</p>
+            <p>User Profile area</p>
             <v-btn
               color="success"
               rounded
               class="font-weight-light"
-              @click="updateProfile"
-            >Follow</v-btn>
+              @click="logout"
+            >Logout</v-btn>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -157,9 +167,12 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { getModule } from 'vuex-module-decorators';
-import UserProfile from "@/store/modules/UserProfile";
+import UserProfile from "@/store/modules/userprofile";
+import UserStatus from "@/store/modules/userstatus"
+import { USER_STATUS } from "@/global/constants"
 
 const $up = getModule(UserProfile)
+const $us = getModule(UserStatus)
 @Component
 export default class UserProfileForm extends Vue {
   password!: string //= this.$store.getters.getPassword // obtain from login form
@@ -170,6 +183,7 @@ export default class UserProfileForm extends Vue {
   address!: string // user's location
   city!: string // user's city
   country!: string // user's country
+  snackbar: boolean = false
   
   //life circle
   beforeCreate() {
@@ -195,6 +209,12 @@ export default class UserProfileForm extends Vue {
       city: this.city,
       country: this.country
     })
+    this.snackbar = true
+  }
+  
+  logout() {
+    this.$router.push({path: "/home"})
+    $us.setStatus(USER_STATUS.IS_NOT_LOGIN)
   }
 }
 </script>

@@ -55,8 +55,8 @@ import { Vue, Emit, Component, Prop } from "vue-property-decorator";
 import USS from "@/global/user-status-sequence";
 import { USER_STATUS } from "@/global/constants"
 import { State, Action, Getter } from "vuex-class";
-import UserStatus from "@/store/modules/UserStatus";
-import UserProfile from "@/store/modules/UserProfile"
+import UserStatus from "@/store/modules/userstatus";
+import UserProfile from "@/store/modules/userprofile"
 import { getModule } from 'vuex-module-decorators';
 
 const $us = getModule(UserStatus)

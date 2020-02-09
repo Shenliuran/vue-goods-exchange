@@ -8,19 +8,22 @@
       app
       overflow
     >
+      <v-btn></v-btn>
     </v-navigation-drawer>
     <!--homepage title drawer-->
     <v-app-bar
       :clipped-left="$vuetify.breakpoint.lgAndUp"
       app
+      right
     >
-      <v-app-bar-nav-icon @click.stop="drawer != drawer"/>
+      <v-app-bar-nav-icon
+        @click.stop="drawer != drawer"
+      />
       <v-toolbar-title
         style="width: 100%"
         class="ml-0 pl-4"
       >
         <span>Goods Exchange</span>
-        <v-spacer/>
       </v-toolbar-title>
       <!--homepage search bar-->
       <v-text-field
@@ -33,8 +36,6 @@
       />
       <v-container>
         <v-spacer/>
-        <!--test field-->
-        <!-- user current status:{{usrStatus}} -->
       </v-container>
       <!--backstage center button-->
       <v-btn
@@ -55,6 +56,10 @@
       />
       <!--call backstage center-->
     </v-app-bar>
+    <!--placeholder-->
+    <v-app-bar/>
+    <!--show case-->
+    <showcase/>
   </v-app>
 </template>
 
@@ -65,16 +70,18 @@ import UserStatusSequence from "@/global/user-status-sequence";
 import MessageBell from "@/components/features/notification/MessageBell.vue"
 import { USER_STATUS } from "@/global/constants";
 import { getModule } from 'vuex-module-decorators';
-import UserStatus from "@/store/modules/UserStatus"
+import Showcase from '@/components/layout/Showcase.vue'
+import UserStatus from "@/store/modules/userstatus"
 
 const $us = getModule(UserStatus)
 @Component({
   components: {
     AlertMessage,
     MessageBell,
+    Showcase
   }
 })
-export default class AppTitleBar extends Vue{
+export default class FrameWork extends Vue{
   //prop values
   //data values
   isBackstageClicked: boolean = false //whether the backstage clicked

@@ -39,7 +39,10 @@
                     align="center"
                   >
                   <v-col>
-                  <v-list-item link>
+                  <v-list-item
+                    link
+                    :to="link.to"
+                  >
                     <v-list-item-action>
                       <v-icon>{{link.icon}}</v-icon>
                     </v-list-item-action>
@@ -97,7 +100,8 @@
             </v-app-bar>
         </v-flex>
         <v-flex>
-          <user-profile-form/>
+          <!-- <user-profile-form/> -->
+          <router-view></router-view>
         </v-flex>
       </v-layout>
     </v-container>
@@ -109,9 +113,9 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import USS from "@/global/user-status-sequence";
 import { USER_STATUS } from "@/global/constants"
 import UserProfileForm from "./UserProfileForm.vue"
-import UserProfile from "@/store/modules/UserProfile";
+import UserProfile from "@/store/modules/userprofile";
 import { getModule } from 'vuex-module-decorators';
-import UserStatus from  "@/store/modules/UserStatus"
+import UserStatus from  "@/store/modules/userstatus"
 
 const $up = getModule(UserProfile)
 const $us = getModule(UserStatus)
@@ -137,7 +141,7 @@ export default class NormalUser extends Vue {
       text: "Dashboard"
     },
     {
-      to: "",
+      to: "/normal-user/user-profile-form",
       icon: "mdi-account",
       text: "User Profile"
     },

@@ -20,14 +20,21 @@ const routes = [
     component: () => import(/** */ "../components/layout/Showcase.vue")
   },
   {
-    path: "/app-title-bar",
-    name: "app-title-bar",
-    component: () => import(/**/ "../components/layout/AppTitleBar.vue")
+    path: "/frame-work",
+    name: "frame-work",
+    component: () => import(/**/ "../components/layout/FrameWork.vue")
   },
   {
     path: "/normal-user",
     name: "normal-user",
-    component: () => import(/**/ "../components/features/backstage/normal/NormalUser.vue")
+    component: () => import(/**/ "../components/features/backstage/normal/NormalUser.vue"),
+    children: [
+      {
+        path: "/normal-user/user-profile-form",
+        name: "user-profile-form",
+        component: () => import(/** */ "../components/features/backstage/normal/UserProfileForm.vue")
+      }
+    ]
   }
 ]
 
