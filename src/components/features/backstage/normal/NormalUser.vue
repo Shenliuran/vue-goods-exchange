@@ -126,11 +126,6 @@ export default class NormalUser extends Vue {
   //features
   links = [
     {
-      to: "",
-      icon: "mdi-view-dashboard",
-      text: "Dashboard"
-    },
-    {
       to: "/normal-user/user-profile-form",
       icon: "mdi-account",
       text: "User Profile"
@@ -146,12 +141,12 @@ export default class NormalUser extends Vue {
       text: "History"
     },
     {
-      to: "",
-      icon: "mdi-map-marker",
-      text: "Maps"
+      to: "/normal-user/modify",
+      icon: "mdi-update",
+      text: "Modify"
     },
     {
-      to: "",
+      to: "/normal-user/notification",
       icon: "mdi-bell",
       text: "Notification"
     },

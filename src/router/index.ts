@@ -48,6 +48,18 @@ const routes: RouteConfig[] = [
         name: "history",
         component: () => import("../components/features/backstage/normal/History.vue"),
         meta: { title: "history" }
+      },
+      {
+        path: "/normal-user/modify",
+        name: "modify",
+        component: () => import("../components/features/backstage/normal/Modify.vue"),
+        meta: { title: "modify" }
+      },
+      {
+        path: "/normal-user/notification",
+        name: "notification",
+        component: () => import("../components/features/backstage/normal/Notification.vue"),
+        meta: { title: "notification" }
       }
     ]
   }

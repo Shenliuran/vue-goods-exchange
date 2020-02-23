@@ -11,9 +11,11 @@
   </v-card>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator"
 
+@Component
+export default class Modify extends Vue {
 }
 </script>
 
