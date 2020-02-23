@@ -47,9 +47,9 @@
     >
       <h3>
         <v-avatar>
-            <v-icon>{{uss.adminstrater.icon}}</v-icon>
+            <v-icon>{{uss.getAdminstrater.icon}}</v-icon>
         </v-avatar>
-          {{uss.adminstrater.text}}
+          {{uss.getAdminstrater.text}}
       </h3>
       </v-toolbar-title>
     </v-app-bar>
@@ -58,14 +58,15 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import USS from "@/global/user-status-sequence";
-import { USER_STATUS } from "@/global/constants"
+import { ConstUserStatus } from "@/store/modules/globalConst"
+import { getModule } from 'vuex-module-decorators';
 
+const $cus = getModule(ConstUserStatus)
 @Component
 export default class NormalUser extends Vue {
   //data values
-  uss: object = USS
-  loginStatus: string = USER_STATUS.LOGGED.ADMINISTRATER //set global loginStatus for normal user
+  uss: ConstUserStatus = $cus
+  loginStatus: string = $cus.getAdminstrater.text //set global loginStatus for normal user
   drawer: boolean = false //whether show the navigation drawer
   username!: string //adminstrater's name
   password!: string //adminstrater's password

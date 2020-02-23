@@ -7,7 +7,6 @@
     >
       <v-layout wrap>
         <v-flex
-          align-self-end
         >
         <!--normal user backstage center navigation drawer-->
           <v-navigation-drawer
@@ -69,11 +68,6 @@
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
-                <!-- <v-btn
-                  to="/home"
-                >
-                  <v-icon>mdi-close</v-icon>
-                </v-btn> -->
               </v-list>
           </v-navigation-drawer>
           <!--normal user backstage app bar-->
@@ -90,17 +84,17 @@
               >
                 <h3>
                   <v-avatar>
-                    <v-icon>{{uss.normal.icon}}</v-icon>
+                    <v-icon>{{us.getNormal.icon}}</v-icon>
                   </v-avatar>
-                    {{uss.normal.text}}
+                    {{us.getNormal.text}}
                     <v-spacer/>
                     <!--test field-->
                 </h3>
               </v-toolbar-title>
+              <v-spacer/>
+              <v-breadcrumbs :items="items"></v-breadcrumbs>
             </v-app-bar>
-        </v-flex>
-        <v-flex>
-          <!-- <user-profile-form/> -->
+            <v-container><v-spacer/></v-container>
           <router-view></router-view>
         </v-flex>
       </v-layout>
@@ -109,30 +103,26 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
-import USS from "@/global/user-status-sequence";
-import { USER_STATUS } from "@/global/constants"
-import UserProfileForm from "./UserProfileForm.vue"
-import UserProfile from "@/store/modules/userprofile";
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import UserProfile from "@/store/modules/userProfile";
 import { getModule } from 'vuex-module-decorators';
-import UserStatus from  "@/store/modules/userstatus"
+import UserStatus from  "@/store/modules/userStatus"
+import { ConstUserStatus } from '../../../../store/modules/globalConst';
+import { RouteRecord } from 'vue-router';
 
 const $up = getModule(UserProfile)
 const $us = getModule(UserStatus)
-@Component({
-  components: {
-    UserProfileForm
-  }
-})
+const $cus = getModule(ConstUserStatus)
+@Component
 export default class NormalUser extends Vue {
   //data values
-  uss: object = USS
-  loginStatus: string = USER_STATUS.LOGGED.NORMAL //set global loginStatus for normal user
+  loginStatus = $cus.getNormal//set global loginStatus for normal user
   drawer: boolean = false //whether show the navigation drawer
   username!: string //normal user's name
   password!: string //normal user's password
   features!: string //features
-
+  us = $cus
+  items: { text: string, disable: boolean }[] = []
   //features
   links = [
     {
@@ -146,14 +136,14 @@ export default class NormalUser extends Vue {
       text: "User Profile"
     },
     {
-      to: "",
-      icon: "mdi-clipboard-outline",
-      text: "Table List"
+      to: "/normal-user/addition-form",
+      icon: "mdi-file-document-box-plus",
+      text: "Add Commodity"
     },
     {
-      to: "",
-      icon: "mdi-format-font",
-      text: "Typography"
+      to: "/normal-user/history",
+      icon: "mdi-history",
+      text: "History"
     },
     {
       to: "",
@@ -167,6 +157,18 @@ export default class NormalUser extends Vue {
     },
   ]
 
+  @Watch("$route")
+  getBreadcrumb() {
+    let matched = this.$route.matched
+    if (this.items.length != 0)
+      this.items.length = 0
+    matched.forEach((elem) => {
+      this.items.push({
+        text: elem.meta.title,
+        disable: false
+      })
+    })
+  }
   //life circle
   /**
    * before create this vue instance
@@ -175,6 +177,7 @@ export default class NormalUser extends Vue {
     //get user information via vuex getters
     this.username = $up.getUsername
     this.password = $up.getPassword
+    this.getBreadcrumb()
   }
   //click event
 }

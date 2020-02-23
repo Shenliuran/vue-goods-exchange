@@ -10,6 +10,7 @@
         sm12
         lg4
       >
+      <commodity-card class="commodity-area"></commodity-card>
       </v-flex>
     </v-layout>
   </v-container>
@@ -17,12 +18,21 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import CommodityCard from "./CommodityCard.vue"
 
-@Component
-export default class GoodsSet extends Vue {
+@Component({
+  components: {
+    CommodityCard
+  }
+})
+export default class CommoditySet extends Vue {
 }
 </script>
 
 <style>
-
+  .commodity-area {
+    width: 990px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 </style>

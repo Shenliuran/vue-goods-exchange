@@ -10,10 +10,10 @@
         raised
         loading="warning"
         elevation="24"
-        v-if="status == US.IS_NOT_LOGIN"
+        v-if="status == us.getIsNotLogin.text"
       >
         <v-card-title>
-          <h3>{{uss.isNotLogin.text}}</h3>
+          <h3>{{us.getIsNotLogin.text}}</h3>
           <v-spacer/>
           <!--close event, return home page-->
           <v-btn
@@ -26,7 +26,7 @@
         <v-card-text>
           <v-container>
           <span>您还没还有登录</span>
-          <v-icon>{{uss.isNotLogin.icon}}</v-icon>
+          <v-icon>{{us.getIsNotLogin.icon}}</v-icon>
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -48,13 +48,13 @@
       </v-card>
       <!--logging panel-->
       <login-form
-        v-else-if="status == US.LOGGING"
-        @loggingBackListener="status = US.IS_NOT_LOGIN"
+        v-else-if="status == us.getLogging.text"
+        @loggingBackListener="status = us.getIsNotLogin.text"
       />
       <!--registering panel-->
       <register-form
-        v-else-if="status == US.REGISTERING"
-        @registeringBackListener="status = US.IS_NOT_LOGIN"
+        v-else-if="status == us.getRegistering.text"
+        @registeringBackListener="status = us.getIsNotLogin.text"
       />
     </v-dialog>
   </v-app>
@@ -62,11 +62,12 @@
 
 <script lang='ts'>
 import { Vue, Component, Prop, Emit } from "vue-property-decorator";
-import UserStatusSequence from "@/global/user-status-sequence";
-import { USER_STATUS } from "@/global/constants";
 import LoginForm from "./LoginForm.vue"
 import RegisterForm from "./RegisterForm.vue"
+import { getModule } from 'vuex-module-decorators';
+import { ConstUserStatus, Prototype } from '../../../store/modules/globalConst';
 
+const $cus = getModule(ConstUserStatus)
 @Component({
   components: {
     LoginForm,
@@ -82,11 +83,11 @@ export default class AlertMessage extends Vue {
   isBackstageClicked!: boolean //father component's value
 
   //data values
-  US: Object = USER_STATUS // user status constants
-  status: string = USER_STATUS.IS_NOT_LOGIN // local current user status
-  uss: object = UserStatusSequence // user status sequence
+  status: string = $cus.getIsNotLogin.text// local current user status
   username!: string //user name cache
   password!: string //user password cache
+  us = $cus
+
   //click event
   /**
    * alert-message quit event
@@ -102,13 +103,13 @@ export default class AlertMessage extends Vue {
    * click login button event
    */
   logging() {
-    this.status = USER_STATUS.LOGGING
+    this.status = $cus.getLogging.text
   }
   /**
    * click register button event
    */
   registering() {
-    this.status = USER_STATUS.REGISTERING
+    this.status = $cus.getRegistering.text
   }
 }
 </script>

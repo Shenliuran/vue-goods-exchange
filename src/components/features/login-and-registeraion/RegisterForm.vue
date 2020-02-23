@@ -5,9 +5,9 @@
     elevation="24"
   >
     <v-card-title>
-      <v-icon>{{uss.registering.icon}}</v-icon>
+      <v-icon>{{us.getRegistering.icon}}</v-icon>
       <v-spacer/>
-      <h3>{{uss.registering.text}}</h3>
+      <h3>{{us.getRegistering.text}}</h3>
       <v-spacer/>
       <!--back button, return alert-message-->
       <v-btn
@@ -56,17 +56,17 @@
 
 <script lang="ts">
 import { Vue, Emit, Component, Prop } from "vue-property-decorator";
-import USS from "@/global/user-status-sequence";
-import { USER_STATUS } from "@/global/constants"
+import { getModule } from 'vuex-module-decorators';
+import { ConstUserStatus } from '../../../store/modules/globalConst';
 
+const $cus = getModule(ConstUserStatus)
 @Component
 export default class RegisterForm extends Vue {
   //data values
-  uss: object = USS
-  US: object = USER_STATUS
   username!: string
   password!: string
   confirmPassword!: string
+  us = $cus
 
   //click event
   onRegisterClick() {

@@ -6,11 +6,11 @@
   >
   <!--login form title-->
     <v-card-title>
-      <v-icon>{{uss.logging.icon}}</v-icon>
+      <v-icon>{{us.getLogging.icon}}</v-icon>
       <!--test field-->
       <!-- <span>{{this.$store.getters.getUsername}}</span> -->
       <v-spacer/>
-      <h3>{{uss.logging.text}}</h3>
+      <h3>{{us.getLogging.text}}</h3>
       <v-spacer/>
       <!--back button, return alert-message-->
       <v-btn
@@ -52,23 +52,22 @@
 
 <script lang="ts">
 import { Vue, Emit, Component, Prop } from "vue-property-decorator";
-import USS from "@/global/user-status-sequence";
-import { USER_STATUS } from "@/global/constants"
 import { State, Action, Getter } from "vuex-class";
-import UserStatus from "@/store/modules/userstatus";
-import UserProfile from "@/store/modules/userprofile"
+import UserStatus from "@/store/modules/userStatus";
+import UserProfile from "@/store/modules/userProfile"
 import { getModule } from 'vuex-module-decorators';
+import { ConstUserStatus } from "@/store/modules/globalConst"
 
 const $us = getModule(UserStatus)
 const $up = getModule(UserProfile)
+const $cus = getModule(ConstUserStatus)
 @Component
 export default class LoginForm extends Vue{
   //data values
-  uss: object = USS
-  US: object = USER_STATUS
   name: string = "" // the input value of name
   password: string = "" // the input value of password
   seen: string = ""
+  us = $cus
 
 
   //click event
@@ -83,7 +82,7 @@ export default class LoginForm extends Vue{
       username: this.name,
       password: this.password
     })
-    $us.setStatus(USER_STATUS.LOGGED.NORMAL)
+    $us.setStatus($cus.getNormal)
   }
 
   /**

@@ -167,12 +167,13 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { getModule } from 'vuex-module-decorators';
-import UserProfile from "@/store/modules/userprofile";
-import UserStatus from "@/store/modules/userstatus"
-import { USER_STATUS } from "@/global/constants"
+import UserProfile from "@/store/modules/userProfile";
+import UserStatus from "@/store/modules/userStatus"
+import { ConstUserStatus } from '../../../../store/modules/globalConst';
 
 const $up = getModule(UserProfile)
 const $us = getModule(UserStatus)
+const $cus = getModule(ConstUserStatus)
 @Component
 export default class UserProfileForm extends Vue {
   password!: string //= this.$store.getters.getPassword // obtain from login form
@@ -214,7 +215,7 @@ export default class UserProfileForm extends Vue {
   
   logout() {
     this.$router.push({path: "/home"})
-    $us.setStatus(USER_STATUS.IS_NOT_LOGIN)
+    $us.setStatus($cus.getIsNotLogin)
   }
 }
 </script>

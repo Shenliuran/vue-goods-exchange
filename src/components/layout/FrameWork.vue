@@ -1,23 +1,49 @@
 <template>
   <v-app>
     <!--homepage naviagtion drawer-->
-    <v-navigation-drawer
-      v-model="drawer"
-      :clipped="$vuetify.breakpoint.lgAndUp"
-      temporary
-      app
-      overflow
+    <v-card
+      elevation="24"
+      width="256"
     >
-      <v-btn></v-btn>
+    <v-navigation-drawer
+      app
+      clipped
+      v-model="homeDrawer"
+    >
+      <v-list
+        dense
+      >
+        <template
+          v-for="(category, i) in categories"
+        >
+        <v-list-item
+          :key="i"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>
+              {{category.icon}}
+            </v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title
+              style="font-size: 16px;"
+            >
+              {{category.text}}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        </template>
+      </v-list>
     </v-navigation-drawer>
+    </v-card>
     <!--homepage title drawer-->
     <v-app-bar
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
+      clipped-left
       app
-      right
     >
       <v-app-bar-nav-icon
-        @click.stop="drawer != drawer"
+        @click.stop="homeDrawer = !homeDrawer"
       />
       <v-toolbar-title
         style="width: 100%"
@@ -38,42 +64,52 @@
         <v-spacer/>
       </v-container>
       <!--backstage center button-->
-      <v-btn
-        icon
-        large
-        @click="onBackstageClick"
+      <v-tooltip
+        bottom
       >
-        <v-icon>mdi-contacts</v-icon>
-      </v-btn>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-on="on"
+            icon
+            large
+            @click="onBackstageClick"
+          >
+            <v-icon>mdi-contacts</v-icon>
+          </v-btn>
+        </template>
+        <span>Contacts</span>
+      </v-tooltip>
       <!--message bell button-->
       <!--call message bell-->
       <message-bell/>
       <!--call dialog message:you haven't logged-->
       <alert-message
-        v-if="usrStatus == US.IS_NOT_LOGIN"
+        v-if="usrStatus == us.getIsNotLogin.text"
         v-bind:isBackstageClicked="isBackstageClicked"
         @alertMessageQuitListener="alertMessageQuit"
       />
       <!--call backstage center-->
     </v-app-bar>
     <!--placeholder-->
-    <v-app-bar/>
-    <!--show case-->
-    <showcase/>
+    <v-content>
+      <showcase/>
+    </v-content>
   </v-app>
 </template>
 
 <script lang='ts'>
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import AlertMessage from "@/components/features/login-and-registeraion/AlertMessage.vue"
-import UserStatusSequence from "@/global/user-status-sequence";
 import MessageBell from "@/components/features/notification/MessageBell.vue"
-import { USER_STATUS } from "@/global/constants";
 import { getModule } from 'vuex-module-decorators';
 import Showcase from '@/components/layout/Showcase.vue'
-import UserStatus from "@/store/modules/userstatus"
+import UserStatus from "@/store/modules/userStatus"
+import { ConstCategories, ConstUserStatus, Prototype } from "@/store/modules/globalConst"
+
 
 const $us = getModule(UserStatus)
+const $type = getModule(ConstCategories)
+const $cus = getModule(ConstUserStatus)
 @Component({
   components: {
     AlertMessage,
@@ -86,14 +122,17 @@ export default class FrameWork extends Vue{
   //data values
   isBackstageClicked: boolean = false //whether the backstage clicked
   isMessageBellClicked: boolean = false //whether the message bell clicked
-  drawer: boolean = false //whether show the navigation drawer
-  uss: object = UserStatusSequence// status information sequence
-  US: object = USER_STATUS// user status constants
-  usrStatus!: string // current user's status, the initial values is IS_NOT_LOGIN
+  homeDrawer: boolean = false //whether show the navigation drawer
+  usrStatus!: string// current user's status, the initial values is IS_NOT_LOGIN
+  categories!: Array<Prototype>
+  us = $cus
 
+  computed() {
+  }
   //life circle
   created() {
-    this.usrStatus = $us.getStatus
+    this.usrStatus = $us.getStatus.text
+    this.categories = $type.getCategories
   }
   //click event
   /**
@@ -104,12 +143,12 @@ export default class FrameWork extends Vue{
 
     //if the global loginStatus is normal user,
     //show the normal user backstage center after clicking the button
-    if ($us.getStatus == USER_STATUS.LOGGED.NORMAL)
+    if ($us.getStatus == $cus.getNormal)
       this.$router.push({ path: "/normal-user" })
 
     // if match the adminstrater.
     //show the adminstrater backstage center after clicking the button
-    else if ($us.getStatus == USER_STATUS.LOGGED.ADMINISTRATER)
+    else if ($us.getStatus == $cus.getAdminstrater)
       this.$router.push({ path: "/adminstrater" })
   }
   /**
