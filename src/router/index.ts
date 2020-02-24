@@ -28,41 +28,56 @@ const routes: RouteConfig[] = [
     path: "/normal-user",
     name: "normal-user",
     redirect: "/normal-user/user-profile-form",
-    component: () => import("../components/features/backstage/normal/NormalUser.vue"),
+    component: () => import("../components/features/management/normal/NormalUser.vue"),
     meta: { title: "normal user" },
     children: [
       {
         path: "/normal-user/user-profile-form",
         name: "user-profile-form",
-        component: () => import("../components/features/backstage/normal/UserProfileForm.vue"),
+        component: () => import("../components/features/management/normal/UserProfileForm.vue"),
         meta: { title: "user profile form" }
       },
       {
         path: "/normal-user/addition-form",
         name: "addition-form",
-        component: () => import("../components/features/backstage/normal/AdditionForm.vue"),
+        component: () => import("../components/features/management/normal/AdditionForm.vue"),
         meta: { title: "addition form" }
       },
       {
         path: "/normal-user/history",
         name: "history",
-        component: () => import("../components/features/backstage/normal/History.vue"),
+        component: () => import("../components/features/management/normal/History.vue"),
         meta: { title: "history" }
       },
       {
         path: "/normal-user/modify",
         name: "modify",
-        component: () => import("../components/features/backstage/normal/Modify.vue"),
+        component: () => import("../components/features/management/normal/Modify.vue"),
         meta: { title: "modify" }
       },
       {
         path: "/normal-user/notification",
         name: "notification",
-        component: () => import("../components/features/backstage/normal/Notification.vue"),
+        component: () => import("../components/features/management/normal/Notification.vue"),
         meta: { title: "notification" }
       }
     ]
-  }
+  },
+  {
+      path: "/administrator",
+      name: "administrator",
+      redirect: "/administrator/user-profile-form",
+      component: () => import("../components/features/management/administrator/Administrator.vue"),
+      meta: { title: "administrator" },
+      children: [
+        {
+          path: "/administrator/user-profile-form",
+          name: "user-profile-form",
+          component:() => import("../components/features/management/administrator/UserProfileForm.vue"),
+          meta: { title: "user profile form"}
+        }
+      ]
+    }
 ]
 
 const router = new VueRouter({

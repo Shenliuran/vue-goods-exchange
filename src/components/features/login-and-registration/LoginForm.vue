@@ -41,11 +41,13 @@
     </v-card-text>
     <!--login button-->
     <v-card-actions>
+      <v-spacer></v-spacer>
       <v-btn
         @click="onLoginClick"
       >
         Login
       </v-btn>
+      <v-spacer></v-spacer>
     </v-card-actions>
   </v-card>
 </template>
@@ -76,7 +78,7 @@ export default class LoginForm extends Vue{
    */
   onLoginClick() {
     this.$router.push({
-      path: "/normal-user"
+      path: "/administrator"
     })
     $up.setBasicUserProfile({
       username: this.name,

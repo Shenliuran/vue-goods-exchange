@@ -41,16 +41,16 @@ export class ConstUserStatus extends VuexModule {
     icon: "mdi-account-circle",
     text: "User"
   }
-  private administrater: Prototype = {
+  private administrator: Prototype = {
     icon: "mdi-shield-account",
-    text: "Administrater"
+    text: "Administrator"
   }
   
   get getIsNotLogin() : Prototype { return this.isNotLogin }
   get getLogging() : Prototype { return this.logging }
   get getRegistering() : Prototype { return this.registering }
   get getNormal() : Prototype { return this.normal }
-  get getAdminstrater() : Prototype { return this.administrater }
+  get getAdministrator() : Prototype { return this.administrator }
 }
 
 export interface Prototype {

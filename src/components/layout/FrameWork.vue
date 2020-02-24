@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <!--homepage naviagtion drawer-->
+    <!--homepage navigation drawer-->
     <v-card
       elevation="24"
       width="256"
@@ -63,7 +63,7 @@
       <v-container>
         <v-spacer/>
       </v-container>
-      <!--backstage center button-->
+      <!--Management center button-->
       <v-tooltip
         bottom
       >
@@ -72,7 +72,7 @@
             v-on="on"
             icon
             large
-            @click="onBackstageClick"
+            @click="onManagementClick"
           >
             <v-icon>mdi-contacts</v-icon>
           </v-btn>
@@ -85,10 +85,10 @@
       <!--call dialog message:you haven't logged-->
       <alert-message
         v-if="usrStatus == us.getIsNotLogin.text"
-        v-bind:isBackstageClicked="isBackstageClicked"
+        v-bind:isManagementClicked="isManagementClicked"
         @alertMessageQuitListener="alertMessageQuit"
       />
-      <!--call backstage center-->
+      <!--call Management center-->
     </v-app-bar>
     <!--placeholder-->
     <v-content>
@@ -99,7 +99,7 @@
 
 <script lang='ts'>
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import AlertMessage from "@/components/features/login-and-registeraion/AlertMessage.vue"
+import AlertMessage from "@/components/features/login-and-registration/AlertMessage.vue"
 import MessageBell from "@/components/features/notification/MessageBell.vue"
 import { getModule } from 'vuex-module-decorators';
 import Showcase from '@/components/layout/Showcase.vue'
@@ -120,7 +120,7 @@ const $cus = getModule(ConstUserStatus)
 export default class FrameWork extends Vue{
   //prop values
   //data values
-  isBackstageClicked: boolean = false //whether the backstage clicked
+  isManagementClicked: boolean = false //whether the Management clicked
   isMessageBellClicked: boolean = false //whether the message bell clicked
   homeDrawer: boolean = false //whether show the navigation drawer
   usrStatus!: string// current user's status, the initial values is IS_NOT_LOGIN
@@ -136,20 +136,20 @@ export default class FrameWork extends Vue{
   }
   //click event
   /**
-   * backstage button click event
+   * Management button click event
    */
-  onBackstageClick() {
-    this.isBackstageClicked = true
+  onManagementClick() {
+    this.isManagementClicked = true
 
     //if the global loginStatus is normal user,
-    //show the normal user backstage center after clicking the button
+    //show the normal user Management center after clicking the button
     if ($us.getStatus == $cus.getNormal)
       this.$router.push({ path: "/normal-user" })
 
-    // if match the adminstrater.
-    //show the adminstrater backstage center after clicking the button
-    else if ($us.getStatus == $cus.getAdminstrater)
-      this.$router.push({ path: "/adminstrater" })
+    // if match the administrator.
+    //show the administrator Management center after clicking the button
+    else if ($us.getStatus == $cus.getAdministrator)
+      this.$router.push({ path: "/administrator" })
   }
   /**
    * message bell button click event
@@ -162,7 +162,7 @@ export default class FrameWork extends Vue{
    * alert-message quit action
    */
   alertMessageQuit() {
-    this.isBackstageClicked = false
+    this.isManagementClicked = false
   }
 }
 </script>

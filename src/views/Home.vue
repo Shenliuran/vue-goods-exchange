@@ -4,7 +4,7 @@
     including: 
       navigation drawer,
       search bar,
-      backstage center,
+      management center,
       message bell
       showcase
   -->

@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-dialog
-      v-model="isBackstageClicked"
+      v-model="isManagementClicked"
       :clipped="$vuetify.breakpoint.lgAndUp"
       persistent
       max-width="300"
@@ -35,13 +35,13 @@
           <v-btn
             @click="logging"
           >
-            登录
+            Login
           </v-btn>
-          <!-- register evnet-->
+          <!-- register event-->
           <v-btn
             to="/"
           >
-            注册
+            Register
           </v-btn>
           <v-spacer/>
         </v-card-actions>
@@ -80,7 +80,7 @@ export default class AlertMessage extends Vue {
     type: Boolean,
     required: false
   })
-  isBackstageClicked!: boolean //father component's value
+  isManagementClicked!: boolean //father component's value
 
   //data values
   status: string = $cus.getIsNotLogin.text// local current user status
@@ -95,7 +95,7 @@ export default class AlertMessage extends Vue {
   @Emit("alertMessageQuitListener")
   close() {}
   /**
-   * user information transimition event
+   * user information transmission event
    * @param username
    * @param password
    */

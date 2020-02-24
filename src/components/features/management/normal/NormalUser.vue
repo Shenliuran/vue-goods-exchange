@@ -8,7 +8,7 @@
       <v-layout wrap>
         <v-flex
         >
-        <!--normal user backstage center navigation drawer-->
+        <!--normal user Management center navigation drawer-->
           <v-navigation-drawer
             v-model="drawer"
             app
@@ -70,7 +70,7 @@
                   </v-list-item>
               </v-list>
           </v-navigation-drawer>
-          <!--normal user backstage app bar-->
+          <!--normal user Management app bar-->
           <v-app-bar
             app
             :clipped="$vuetify.breakpoint.lgAndUp"
@@ -124,7 +124,7 @@ export default class NormalUser extends Vue {
   us = $cus
   items: { text: string, disable: boolean }[] = []
   //features
-  links = [
+  links : { to: string, icon: string, text: string }[]= [
     {
       to: "/normal-user/user-profile-form",
       icon: "mdi-account",
