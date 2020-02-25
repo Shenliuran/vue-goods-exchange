@@ -175,7 +175,7 @@ const $up = getModule(UserProfile)
 const $us = getModule(UserStatus)
 const $cus = getModule(ConstUserStatus)
 @Component
-export default class UserProfileForm extends Vue {
+export default class AdminProfileForm extends Vue {
   password!: string //= this.$store.getters.getPassword // obtain from login form
   username!: string //= this.$store.getters.getUsername // obtain from login form
   email!: string // user's e-mail

@@ -122,9 +122,14 @@ export default class Administrator extends Vue {
 
   links: { to: string, icon: string, text: string }[] = [
     {
-      to: "/administrator/user-profile-form",
+      to: "/administrator/admin-profile-form",
       icon: "mdi-account",
-      text: "User Profile"
+      text: "Admin Profile"
+    },
+    {
+      to: "/administrator/user-info-manage",
+      icon: "mdi-stack-exchange",
+      text: "User Info Management"
     }
   ]
 

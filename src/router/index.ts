@@ -66,15 +66,21 @@ const routes: RouteConfig[] = [
   {
       path: "/administrator",
       name: "administrator",
-      redirect: "/administrator/user-profile-form",
+      redirect: "/administrator/admin-profile-form",
       component: () => import("../components/features/management/administrator/Administrator.vue"),
       meta: { title: "administrator" },
       children: [
         {
-          path: "/administrator/user-profile-form",
-          name: "user-profile-form",
-          component:() => import("../components/features/management/administrator/UserProfileForm.vue"),
-          meta: { title: "user profile form"}
+          path: "/administrator/admin-profile-form",
+          name: "admin-profile-form",
+          component:() => import("../components/features/management/administrator/AdminProfileForm.vue"),
+          meta: { title: "admin profile form"}
+        },
+        {
+          path: "/administrator/user-info-manage",
+          name: "user-info-manage",
+          component:() => import("../components/features/management/administrator/UserInfoManage.vue"),
+          meta: { title: "user information management"}
         }
       ]
     }

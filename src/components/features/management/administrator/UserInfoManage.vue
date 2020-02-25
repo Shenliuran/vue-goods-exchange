@@ -1,85 +1,31 @@
 <template>
-  <!-- <v-container
-    fill-height
-    fluid
-    grid-list-xl
-  >
-    <v-layout
-      justify-center
-      wrap
+  <v-card>
+    <v-card-title>
+      User information Management
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      />
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :search="search"
     >
-    <v-flex
-      xs12
-      md8
-    > -->
-    <v-card>
-      <v-card-title>
-        Transaction History
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-        />
-      </v-card-title>
-      <v-data-table
-        :headers="headers"
-        :items="desserts"
-        :search="search"
-      >
-      </v-data-table>
-    </v-card>
-    <!-- </v-flex> -->
-    <!-- <v-flex
-      xs12
-      md4
-    >
-      <v-container><v-spacer/></v-container>
-      <v-card
-        class="mt-4 mx-auto"
-        max-height="500"
-      >
-        <v-sheet
-          class="v-sheet--offset mx-auto"
-          color="cyan"
-          elevation="12"
-          max-width="calc(100% - 32px)"
-        >
-          <v-sparkline
-            :labels="labels"
-            :value="value"
-            color="white"
-            line-width="2"
-            padding="16"
-          >
-          </v-sparkline>
-        </v-sheet>
-        <v-card-text class="pt-0">
-          <div class="title font-weight-light mb-2">User Registrations</div>
-          <div class="subheading font-weight-light grey--text">Last Campaign Performance</div>
-          <v-divider class="my-2"></v-divider>
-          <v-icon
-            class="mr-2"
-            small
-          >
-            mdi-clock
-          </v-icon>
-          <span class="caption grey--text font-weight-light">last registration 26 minutes ago</span>
-        </v-card-text>
-      </v-card>
-    </v-flex> -->
-    <!-- </v-layout>
-  </v-container> -->
+    </v-data-table>
+  </v-card>
 </template>
 
 <script lang="ts">
-import { Vue, Component} from "vue-property-decorator"
+import { Vue, Component } from 'vue-property-decorator'
 import { DataTableHeader } from 'vuetify'
 
 @Component
-export default class History extends Vue {
+export default class UserInfoManage extends Vue {
   search: string = ""
   headers: DataTableHeader[] = [
     { text: "History", align: "center", sortable: false, value: "name"},
@@ -175,8 +121,5 @@ export default class History extends Vue {
 </script>
 
 <style>
-  .v-sheet--offset {
-    top: -24px;
-    position: relative;
-  }
+
 </style>
