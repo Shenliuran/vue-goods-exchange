@@ -81,6 +81,11 @@ const routes: RouteConfig[] = [
           name: "user-info-manage",
           component:() => import("../components/features/management/administrator/UserInfoManage.vue"),
           meta: { title: "user information management"}
+        },
+        {
+          path: "/administrator/goods-manage",
+          name: "goods-manage",
+          meta: { title: "goods management" }
         }
       ]
     }

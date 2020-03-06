@@ -1,16 +1,16 @@
 <template>
   <v-app>
-    <commodity-set/>
+    <goods-set/>
   </v-app>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator"
-import CommoditySet from "@/components/features/showcase/CommoditySet.vue"
+import GoodsSet from "@/components/features/showcase/GoodsSet.vue"
 
 @Component({
   components: {
-    CommoditySet
+    GoodsSet
   }
 })
 export default class Showcase extends Vue {

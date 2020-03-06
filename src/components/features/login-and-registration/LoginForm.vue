@@ -59,6 +59,7 @@ import UserStatus from "@/store/modules/userStatus";
 import UserProfile from "@/store/modules/userProfile"
 import { getModule } from 'vuex-module-decorators';
 import { ConstUserStatus } from "@/store/modules/globalConst"
+import { basicUrls } from "@/api/urls";
 
 const $us = getModule(UserStatus)
 const $up = getModule(UserProfile)
@@ -70,6 +71,7 @@ export default class LoginForm extends Vue{
   password: string = "" // the input value of password
   seen: string = ""
   us = $cus
+  userToken: string = ""
 
 
   //click event
@@ -77,14 +79,34 @@ export default class LoginForm extends Vue{
    * click login event
    */
   onLoginClick() {
-    this.$router.push({
-      path: "/administrator"
-    })
-    $up.setBasicUserProfile({
+    // this.$router.push({
+    //   path: "/administrator"
+    // })
+    // $up.setBasicUserProfile({
+    //   username: this.name,
+    //   password: this.password
+    // })
+    // $us.setStatus($cus.getNormal)
+    this.axios.post(basicUrls.dev + "user/login", {
       username: this.name,
-      password: this.password
+      password: this.password,
+      id: 1
+    }).then(request => {
+      if (request.data == '0')
+        alert("用户不存在")
+      else if (request.data == '1')
+        alert("登陆失败，账号或密码错误")
+      else {
+        this.$router.push({
+          path: "/normal-user"
+        })
+        $up.setBasicUserProfile({
+          username: this.name,
+          password: this.password
+        })
+        $us.setStatus($cus.getNormal)
+      }
     })
-    $us.setStatus($cus.getNormal)
   }
 
   /**

@@ -1,6 +1,10 @@
 // webpack.config.js
 
 module.exports = {
+  // output: {
+  //   path: "./dist",
+  //   filename: "build.js"
+  // },
   rules: [
     {
       test: /\.s(c|a)ss$/,
@@ -27,4 +31,5 @@ module.exports = {
       ],
     },
   ],
+  
 }

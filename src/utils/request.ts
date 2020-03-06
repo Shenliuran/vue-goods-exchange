@@ -1,4 +1,7 @@
 import axios from "axios"
+import VueAxios from "vue-axios"
+import Vue from "vue"
+Vue.use(VueAxios, axios)
 
 let pending: any[] = [];
 const CancelToken: any = axios.CancelToken;
@@ -17,7 +20,7 @@ const removePending: any = (config: any, f: any) => {
 };
 
 const service = axios.create({
-  baseURL: "",
+  baseURL: "/api",
   timeout: 5000
 });
 

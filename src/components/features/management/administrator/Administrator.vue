@@ -130,6 +130,11 @@ export default class Administrator extends Vue {
       to: "/administrator/user-info-manage",
       icon: "mdi-stack-exchange",
       text: "User Info Management"
+    },
+    {
+      to: "/administrator/goods-manage",
+      icon: "mdi-book",
+      text: "Goods Management"
     }
   ]
 

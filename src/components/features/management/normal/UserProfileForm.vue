@@ -212,7 +212,6 @@ export default class UserProfileForm extends Vue {
     })
     this.snackbar = true
   }
-  
   logout() {
     this.$router.push({path: "/home"})
     $us.setStatus($cus.getIsNotLogin)

@@ -66,8 +66,8 @@
                 <v-select
                   :items="categories"
                   chips
-                  label="Categroy"
-                  v-model="choises"
+                  label="Category"
+                  v-model="choices"
                   multiple
                 ></v-select>
               </v-flex>
@@ -102,18 +102,27 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { basicUrls } from '../../../../api/urls';
+import { getModule } from 'vuex-module-decorators';
+import UserProfile from '../../../../store/modules/userProfile';
 
+const $us = getModule(UserProfile)
 @Component
 export default class AdditionForm extends Vue {
   categories: string[] = ['Book', "Digital", "Health/Makeup", "Clothes", "Sports", "Foods"]
   goodsName: string = ""//the goods' name
-  choises: string = ""//the goods categories choosed by user
-  photo: string = ""// the photo choosed by user
+  choices: string = ""//the goods categories be chosen by user
+  picture: string = ""// the photo be chosen by user
   description: string = ""// the goods' description
-  time!: Date
 
   submit() {
-    this.time = new Date()
+    this.axios.post(basicUrls.dev + "goods/addGoods", {
+      title: this.goodsName,
+      author: $us.getUsername,
+      picture: this.picture
+    }).then(() => {
+      alert("success")
+    })
   }
   //echo the local photo
   echo() {
@@ -123,7 +132,7 @@ export default class AdditionForm extends Vue {
     let that = this
     reader.onload = function (e) {
       ((document.getElementById("echo") as HTMLImageElement).src as String) = ((e.target as FileReader).result as String)
-      that.photo = (e.target as FileReader).result as string
+      that.picture = (e.target as FileReader).result as string
     }
   }
 }
@@ -132,7 +141,7 @@ export default class AdditionForm extends Vue {
 <style scoped>
   #echo {
     height: inherit;
-    width: inherit;
+    /* width: inherit; */
   }
   .image_frame {
     border: 1px dashed;

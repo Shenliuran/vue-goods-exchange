@@ -133,7 +133,7 @@ export default class NormalUser extends Vue {
     {
       to: "/normal-user/addition-form",
       icon: "mdi-file-document-box-plus",
-      text: "Add Commodity"
+      text: "Add Goods"
     },
     {
       to: "/normal-user/history",
