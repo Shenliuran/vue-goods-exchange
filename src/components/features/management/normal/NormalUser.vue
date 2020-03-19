@@ -132,7 +132,7 @@ export default class NormalUser extends Vue {
     },
     {
       to: "/normal-user/addition-form",
-      icon: "mdi-file-document-box-plus",
+      icon: "mdi-file-plus",
       text: "Add Goods"
     },
     {
@@ -141,9 +141,9 @@ export default class NormalUser extends Vue {
       text: "History"
     },
     {
-      to: "/normal-user/modify",
+      to: "/normal-user/management",
       icon: "mdi-update",
-      text: "Modify"
+      text: "Goods Management"
     },
     {
       to: "/normal-user/notification",

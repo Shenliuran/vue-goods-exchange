@@ -170,34 +170,42 @@ import { getModule } from 'vuex-module-decorators';
 import UserProfile from "@/store/modules/userProfile";
 import UserStatus from "@/store/modules/userStatus"
 import { ConstUserStatus } from '../../../../store/modules/globalConst';
+import { basicUrls } from '../../../../api/urls';
 
 const $up = getModule(UserProfile)
 const $us = getModule(UserStatus)
 const $cus = getModule(ConstUserStatus)
 @Component
-export default class AdminProfileForm extends Vue {
-  password!: string //= this.$store.getters.getPassword // obtain from login form
-  username!: string //= this.$store.getters.getUsername // obtain from login form
-  email!: string // user's e-mail
-  firstName!: string // user's real first name
-  lastName!: string // user's real last name
-  address!: string // user's location
-  city!: string // user's city
-  country!: string // user's country
+export default class UserProfileForm extends Vue {
+  password: string = ""//= this.$store.getters.getPassword // obtain from login form
+  username: string = ""//= this.$store.getters.getUsername // obtain from login form
+  email: string = ""// user's e-mail
+  firstName: string = ""// user's real first name
+  lastName: string = ""// user's real last name
+  address: string = ""// user's location
+  city: string = ""// user's city
+  country: string = ""// user's country
   snackbar: boolean = false
+  userId: number = -1
   
   //life circle
-  beforeCreate() {
+  created() {
     this.password = $up.getPassword // obtain from login form
     this.username = $up.getUsername // obtain from login form
-    this.firstName = $up.getFirstName
-    this.lastName = $up.getLastName
-    this.email = $up.getEmail
-    this.address = $up.getAddress
-    this.city = $up.getCity
-    this.country = $up.getCountry
+    this.axios.post(basicUrls.dev + "/user/getUserProfile", {
+      username: this.username,
+      password: this.password
+    }).then(response => {
+      console.log(response.data)
+      this.firstName = response.data.firstName
+      this.lastName = response.data.lastName
+      this.email = response.data.email
+      this.address = response.data.address
+      this.city = response.data.city
+      this.country = response.data.country
+      this.userId = response.data.userId
+    })
   }
-
   // click event
   updateProfile() {
     $up.setUserProfile({
@@ -211,8 +219,18 @@ export default class AdminProfileForm extends Vue {
       country: this.country
     })
     this.snackbar = true
+    this.axios.post(basicUrls.dev + "/user/updateUserProfile", {
+      username: this.username,
+      password: this.password,
+      address: this.address,
+      email: this.email,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      city: this.city,
+      country: this.country,
+      userId: this.userId
+    })
   }
-  
   logout() {
     this.$router.push({path: "/home"})
     $us.setStatus($cus.getIsNotLogin)

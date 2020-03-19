@@ -67,8 +67,7 @@
                   :items="categories"
                   chips
                   label="Category"
-                  v-model="choices"
-                  multiple
+                  v-model="choice"
                 ></v-select>
               </v-flex>
             </v-layout>
@@ -107,21 +106,28 @@ import { getModule } from 'vuex-module-decorators';
 import UserProfile from '../../../../store/modules/userProfile';
 
 const $us = getModule(UserProfile)
+const $up = getModule(UserProfile)
 @Component
 export default class AdditionForm extends Vue {
   categories: string[] = ['Book', "Digital", "Health/Makeup", "Clothes", "Sports", "Foods"]
   goodsName: string = ""//the goods' name
-  choices: string = ""//the goods categories be chosen by user
+  choice: string = ""//the goods categories be chosen by user
   picture: string = ""// the photo be chosen by user
   description: string = ""// the goods' description
 
   submit() {
-    this.axios.post(basicUrls.dev + "goods/addGoods", {
-      title: this.goodsName,
-      author: $us.getUsername,
-      picture: this.picture
-    }).then(() => {
-      alert("success")
+    this.axios.post(basicUrls.dev + "/goods/addGoods", {
+      goodsName: this.goodsName,
+      ownerName: $us.getUsername,
+      picture: this.picture,
+      ownerId: $up.getUserId,
+      category: this.choice,
+      description: this.description
+    }).then(response => {
+      if (response.data == "1")
+        alert("success")
+      else
+        alert("failed")
     })
   }
   //echo the local photo

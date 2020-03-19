@@ -15,6 +15,11 @@ const routes: RouteConfig[] = [
     redirect: "/home"
   },
   {
+    path: "/empty",
+    name: "empty",
+    component: () => import("../components/layout/EmptyHome.vue")
+  },
+  {
     path: "/showcase",
     name: "showcase",
     component: () => import("../components/layout/Showcase.vue")
@@ -50,10 +55,10 @@ const routes: RouteConfig[] = [
         meta: { title: "history" }
       },
       {
-        path: "/normal-user/modify",
-        name: "modify",
-        component: () => import("../components/features/management/normal/Modify.vue"),
-        meta: { title: "modify" }
+        path: "/normal-user/management",
+        name: "management",
+        component: () => import("../components/features/management/normal/Management.vue"),
+        meta: { title: "management" }
       },
       {
         path: "/normal-user/notification",
@@ -85,7 +90,14 @@ const routes: RouteConfig[] = [
         {
           path: "/administrator/goods-manage",
           name: "goods-manage",
+          component: () => import("../components/features/management/administrator/GoodsManage.vue"),
           meta: { title: "goods management" }
+        },
+        {
+          path: "/administrator/history-manage",
+          name: "history-manage",
+          component: () => import("../components/features/management/administrator/HistoryManage.vue"),
+          meta: { title: "history management"}
         }
       ]
     }

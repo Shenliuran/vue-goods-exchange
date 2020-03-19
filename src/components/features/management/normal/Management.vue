@@ -125,7 +125,6 @@ export default class Management extends Vue {
     { text: "Actions", value: "action", sortable: false }
   ]
   goods: Array<{
-    goodsId: number,
     goodsName: string,
     picture: string,
     category: string,
@@ -134,11 +133,10 @@ export default class Management extends Vue {
   }> = []
 
   beforeCreate() {
-    this.axios.get(basicUrls.dev + "/goods/allGoods").then(response => {
+    this.axios.get(basicUrls.dev + "/goods/findGoodsByOwnerId?ownerId=" + $up.getUserId).then(response => {
       let buf: Array<any> = response.data
       buf.forEach(item => {
         this.goods.push({
-          goodsId: item.goodsId,
           goodsName: item.goodsName,
           picture: item.picture,
           category: item.category,
@@ -164,11 +162,16 @@ export default class Management extends Vue {
   }
   deleteItem(item: any) {
     const index = this.goods.indexOf(item)
-    this.axios.post(basicUrls.dev + "/goods/deleteGoodsByGoodsId", {
-      goodsId: item.goodsId
-    }).then(resp => {
-      resp.data == "1" ? alert("delete success") : alert("delete failed")
-    })
+    this.axios.get(basicUrls.dev +
+      "/goods/getGoodsId?goodsName=" + this.goods[index].goodsName +
+      "&category=" + this.goods[index].category +
+      "&ownerId=" + $up.getUserId).then(response => {
+        this.axios.post(basicUrls.dev + "/goods/deleteGoodsByGoodsId", {
+          goodsId: response.data
+        }).then(resp => {
+          resp.data == "1" ? alert("delete success") : alert("delete failed")
+        })
+      })
     confirm("Are you sure you want to delete this goods") && this.goods.splice(index, 1)
   }
 

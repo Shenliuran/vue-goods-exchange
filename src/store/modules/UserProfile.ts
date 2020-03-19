@@ -16,6 +16,7 @@ export default class UserProfile extends VuexModule {
   private address: string = ""
   private city: string = ""
   private country: string = ""
+  private userId: number = -1
 
   @Mutation
   setUserProfile(obj: {
@@ -26,7 +27,7 @@ export default class UserProfile extends VuexModule {
     firstName: string,
     lastName: string,
     city: string,
-    country: string
+    country: string,
   }) {
     this.username = obj.username
     this.password = obj.password
@@ -38,18 +39,22 @@ export default class UserProfile extends VuexModule {
     this.country = obj.country
   }
   @Mutation
-  setBasicUserProfile(obj: { username: string, password: string}) {
+  setBasicUserProfile(obj: { username: string, password: string }) {
     this.username = obj.username
     this.password = obj.password
   }
 
-  get getFullName (): string { return this.firstName + " " + this.lastName }
+  @Mutation
+  setUserId(userId: number) { this.userId = userId }
+
+  get getFullName(): string { return this.firstName + " " + this.lastName }
   get getUsername() { return this.username }
-  get getPassword() { return  this.password }
+  get getPassword() { return this.password }
   get getAddress() { return this.address }
   get getLastName() { return this.lastName }
   get getFirstName() { return this.firstName }
-  get getCity() {return this.city }
+  get getCity() { return this.city }
   get getCountry() { return this.country }
-  get getEmail() {return this.email }
+  get getEmail() { return this.email }
+  get getUserId() { return this.userId }
 }

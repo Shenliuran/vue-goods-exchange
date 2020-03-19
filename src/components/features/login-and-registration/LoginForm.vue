@@ -72,6 +72,7 @@ export default class LoginForm extends Vue{
   seen: string = ""
   us = $cus
   userToken: string = ""
+  authority: number = 0
 
 
   //click event
@@ -79,32 +80,31 @@ export default class LoginForm extends Vue{
    * click login event
    */
   onLoginClick() {
-    // this.$router.push({
-    //   path: "/administrator"
-    // })
-    // $up.setBasicUserProfile({
-    //   username: this.name,
-    //   password: this.password
-    // })
-    // $us.setStatus($cus.getNormal)
-    this.axios.post(basicUrls.dev + "user/login", {
+    this.axios.post(basicUrls.dev + "/user/login", {
       username: this.name,
-      password: this.password,
-      id: 1
+      password: this.password
     }).then(request => {
       if (request.data == '0')
         alert("用户不存在")
       else if (request.data == '1')
         alert("登陆失败，账号或密码错误")
       else {
-        this.$router.push({
-          path: "/normal-user"
+        this.axios.get(basicUrls.dev + "/user/authority?username=" + this.name).then(req => {
+          $up.setBasicUserProfile({
+            username: this.name,
+            password: this.password
+          })
+          this.axios.get(basicUrls.dev + "/user/getUserIdByUsernameAndPassword?username=" +
+            this.name + "&password=" + this.password).then(r => $up.setUserId(r.data))
+          if (req.data == "0")
+            $us.setStatus($cus.getNormal)
+          else
+            $us.setStatus($cus.getAdministrator)
+          this.$router.push({
+            path: "/empty"
+          })
+          alert("Welcome " + $up.getUsername)
         })
-        $up.setBasicUserProfile({
-          username: this.name,
-          password: this.password
-        })
-        $us.setStatus($cus.getNormal)
       }
     })
   }

@@ -1,176 +1,125 @@
 <template>
-  <!-- <v-container
-    fill-height
-    fluid
-    grid-list-xl
+<v-container>
+  <v-data-table
+    :headers="sellHeaders"
+    :items="historyForSelling"
+   class="elevation-1"
   >
-    <v-layout
-      justify-center
-      wrap
-    >
-    <v-flex
-      xs12
-      md8
-    > -->
-    <v-card>
-      <v-card-title>
-        Transaction History
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-toolbar-title>
+          Selling History
+        </v-toolbar-title>
+        <v-divider
+          class="mx-4"
+          inset
+          vertical
+        ></v-divider>
         <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-        />
-      </v-card-title>
-      <v-data-table
-        :headers="headers"
-        :items="desserts"
-        :search="search"
-      >
-      </v-data-table>
-    </v-card>
-    <!-- </v-flex> -->
-    <!-- <v-flex
-      xs12
-      md4
-    >
-      <v-container><v-spacer/></v-container>
-      <v-card
-        class="mt-4 mx-auto"
-        max-height="500"
-      >
-        <v-sheet
-          class="v-sheet--offset mx-auto"
-          color="cyan"
-          elevation="12"
-          max-width="calc(100% - 32px)"
-        >
-          <v-sparkline
-            :labels="labels"
-            :value="value"
-            color="white"
-            line-width="2"
-            padding="16"
-          >
-          </v-sparkline>
-        </v-sheet>
-        <v-card-text class="pt-0">
-          <div class="title font-weight-light mb-2">User Registrations</div>
-          <div class="subheading font-weight-light grey--text">Last Campaign Performance</div>
-          <v-divider class="my-2"></v-divider>
-          <v-icon
-            class="mr-2"
-            small
-          >
-            mdi-clock
-          </v-icon>
-          <span class="caption grey--text font-weight-light">last registration 26 minutes ago</span>
-        </v-card-text>
-      </v-card>
-    </v-flex> -->
-    <!-- </v-layout>
-  </v-container> -->
+      </v-toolbar>
+    </template>
+    <template v-slot:no-data>
+      <span>No Data</span>
+    </template>
+  </v-data-table>
+
+  <v-data-table
+    :headers="buyHeaders"
+    :items="historyForBuying"
+    class="elevation-1"
+  >
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-toolbar-title>
+          Buying History
+        </v-toolbar-title>
+        <v-divider
+          class="mx-4"
+          inset
+          vertical
+        ></v-divider>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+    </template>
+    <template v-slot:no-data>
+      <span>No Data</span>
+    </template>
+  </v-data-table>
+</v-container>
 </template>
 
 <script lang="ts">
 import { Vue, Component} from "vue-property-decorator"
 import { DataTableHeader } from 'vuetify'
+import { basicUrls } from '../../../../api/urls'
+import { getModule } from 'vuex-module-decorators'
+import UserProfile from '../../../../store/modules/userProfile'
 
+const $up = getModule(UserProfile)
 @Component
 export default class History extends Vue {
   search: string = ""
-  headers: DataTableHeader[] = [
-    { text: "History", align: "center", sortable: false, value: "name"},
-    { text: 'Calories', value: 'calories' },
-    { text: 'Fat (g)', value: 'fat' },
-    { text: 'Carbs (g)', value: 'carbs' },
-    { text: 'Protein (g)', value: 'protein' },
-    { text: 'Iron (%)', value: 'iron' },
+  buyHeaders: DataTableHeader[] = [
+    { text: "Goods Name", value: "goodsName" },
+    { text: 'Buyer', value: 'sponsorName' },
   ]
-  desserts: {}[] = [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: '1%',
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            iron: '1%',
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-            iron: '7%',
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-            iron: '8%',
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-            iron: '16%',
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-            iron: '0%',
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-            iron: '2%',
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-            iron: '45%',
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: '22%',
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: '6%',
-          },
+  sellHeaders: DataTableHeader[] = [
+    { text: "Goods Name", value: "goodsName" },
+    { text: "Ex-owner Name", value: "receiverName" }
   ]
+  historyForBuying: [{
+    goodsName: string,
+    sponsorName: string
+  }] = [{
+    goodsName: "",
+    sponsorName: ""
+  }]
+  historyForSelling: [{
+    goodsName: string,
+    receiverName: string
+  }] = [{
+    goodsName: "",
+    receiverName: ""
+  }]
+  beforeCreate() {
+    this.axios.get(basicUrls.dev + "/transaction/getTransactionByReceiverId?"
+    + "receiverId=" + $up.getUserId).then(response => {
+      let buf: Array<{
+        transactionId: number,
+        goodsName: string,
+        goodsId: number,
+        sponsorId: number,
+        sponsorName: string,
+        receiverId: number,
+        receiverName: string
+      }> = response.data
+      buf.forEach(elem => {
+        this.historyForBuying.push({
+          goodsName: elem.goodsName,
+          sponsorName: elem.receiverName
+        })
+      })
+    })
+    this.axios.get(basicUrls.dev + "/transaction/getTransactionBySponsorId?"
+    + "sponsorId=" + $up.getUserId).then(response => {
+      let buf: Array<{
+        transactionId: number,
+        goodsName: string,
+        goodsId: number,
+        sponsorId: number,
+        sponsorName: string,
+        receiverId: number,
+        receiverName: string
+      }> = response.data
+      console.log("buf: " + buf)
+      buf.forEach(elem => {
+        this.historyForSelling.push({
+          goodsName: elem.goodsName,
+          receiverName: elem.receiverName
+        })
+      })
+    })
+  }
 }
 </script>
 

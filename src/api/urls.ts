@@ -1,3 +1,3 @@
 export const basicUrls = {
-  dev: "http://localhost:8181/"
+  dev: "http://localhost:8181"
 }

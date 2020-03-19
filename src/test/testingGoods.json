@@ -1,0 +1,37 @@
+[
+  {
+    "goodsName": "篮球",
+    "ownerName": "张三",
+    "category": "Sports"
+  },
+  {
+    "goodsName": "假如给我三天光明",
+    "ownerName": "张三",
+    "category": "Book"
+  },
+  {
+    "goodsName": "佳能相机",
+    "ownerName": "李四",
+    "category": "Digital"
+  },
+  {
+    "goodsName": "三只松鼠",
+    "ownerName": "王五",
+    "category": "Foods"
+  },
+  {
+    "goodsName": "MUJI围脖",
+    "ownerName": "赵六",
+    "category": "Clothes"
+  },
+  {
+    "goodsName": "Dior口红",
+    "ownerName": "小瑶",
+    "category": "Health/Makeup"
+  },
+  {
+    "goodsName": "Chanel口红",
+    "ownerName": "小瑶",
+    "category": "Health/Makeup"
+  }
+]

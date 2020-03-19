@@ -3,8 +3,8 @@
     <v-dialog
       v-model="isManagementClicked"
       :clipped="$vuetify.breakpoint.lgAndUp"
-      persistent
       max-width="300"
+      persistent
     >
       <v-card
         raised
@@ -39,7 +39,7 @@
           </v-btn>
           <!-- register event-->
           <v-btn
-            to="/"
+            @click="registering"
           >
             Register
           </v-btn>
