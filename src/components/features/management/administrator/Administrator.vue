@@ -64,7 +64,7 @@
                     </v-list-item-action>
                     <v-list-item-content>
                       <v-list-item-title>
-                        Back
+                        返回
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -124,22 +124,22 @@ export default class Administrator extends Vue {
     {
       to: "/administrator/admin-profile-form",
       icon: "mdi-account",
-      text: "Admin Profile"
+      text: "管理员信息"
     },
     {
       to: "/administrator/user-info-manage",
       icon: "mdi-stack-exchange",
-      text: "User Info Management"
+      text: "用户信息管理"
     },
     {
       to: "/administrator/goods-manage",
       icon: "mdi-book",
-      text: "Goods Management"
+      text: "物品管理"
     },
     {
       to: "/administrator/history-manage",
       icon: "mdi-history",
-      text: "History Management"
+      text: "交易历史"
     }
   ]
 

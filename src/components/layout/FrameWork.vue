@@ -52,7 +52,7 @@
         style="width: 100%"
         class="ml-0 pl-4"
       >
-        <span>Goods Exchange</span>
+        <span>校园物品交换网站</span>
       </v-toolbar-title>
       <!--homepage search bar-->
       <v-text-field
@@ -82,7 +82,7 @@
             <v-icon>mdi-contacts</v-icon>
           </v-btn>
         </template>
-        <span>Contacts</span>
+        <span>用户中心</span>
       </v-tooltip>
       <!--message bell button-->
       <!--call message bell-->

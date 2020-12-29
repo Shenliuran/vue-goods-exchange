@@ -35,13 +35,13 @@
           <v-btn
             @click="logging"
           >
-            Login
+            登录
           </v-btn>
           <!-- register event-->
           <v-btn
             @click="registering"
           >
-            Register
+            注册
           </v-btn>
           <v-spacer/>
         </v-card-actions>

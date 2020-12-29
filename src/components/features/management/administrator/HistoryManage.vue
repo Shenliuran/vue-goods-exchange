@@ -7,7 +7,7 @@
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title>
-          History
+          交易历史
         </v-toolbar-title>
         <v-divider
           class="mx-4"
@@ -18,7 +18,7 @@
       </v-toolbar>
     </template>
     <template v-slot:no-data>
-      <span>No Data</span>
+      <span>无数据</span>
     </template>
     <template v-slot:item.action="{ item }">
       <v-icon
@@ -43,15 +43,15 @@ const $up = getModule(UserProfile)
 export default class History extends Vue {
   search: string = ""
   headers: DataTableHeader[] = [
-    { text: "Goods Name", value: "goodsName" },
-    { text: 'Buyer', value: 'sponsorName' },
-    { text: "Ex-owner Name", value: "receiverName" },
-    { text: "Action", value: "action", sortable: false}
+    { text: "物品名称", value: "goodsName" },
+    { text: '购入', value: 'sponsorName' },
+    { text: "原拥有者", value: "receiverName" },
+    { text: "删除", value: "action", sortable: false}
   ]
   history: [{
     transactionId: number,
     goodsName: string,
-    sponsorName: string
+    sponsorName: string,
     receiverName: string
   }] = [{
     transactionId: -1,
@@ -86,8 +86,8 @@ export default class History extends Vue {
     this.axios.post(basicUrls.dev + "/transaction/deleteTransactionByTransactionId", {
       transactionId: item.transactionId
     }).then(response => {
-      if (response.data == "0") alert("delete failed")
-      else alert("delete success")
+      if (response.data == "0") alert("删除失败")
+      else alert("删除成功")
     })
   }
 }

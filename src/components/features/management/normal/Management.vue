@@ -7,7 +7,7 @@
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title>
-          Management
+          物品管理
         </v-toolbar-title>
         <v-divider
           class="mx-4"
@@ -21,7 +21,7 @@
             
             <v-card-text>
               <v-container>
-                <v-text-field v-model="editedItem.goodsName" label="Goods Name"></v-text-field>
+                <v-text-field v-model="editedItem.goodsName" label="物品名称"></v-text-field>
                 <span>origin picture</span>
                 <div class="image_frame">
                   <img
@@ -41,12 +41,13 @@
                 <v-select
                   :items="categories"
                   chips
-                  label="Category"
+                  label="分类"
                   v-model="editedItem.category"
                 ></v-select>
+                <v-text-field v-model="editedItem.contact" label="联系方式"></v-text-field>
                 <v-textarea
                   v-model="editedItem.description"
-                  label="description"
+                  label="描述"
                   aria-multiline
                 ></v-textarea>
               </v-container>
@@ -58,7 +59,7 @@
                 text
                 @click="close"
               >
-                Cancel
+                取消
               </v-btn>
               <v-btn
                 text
@@ -109,19 +110,18 @@ export default class Management extends Vue {
     picture: string,
     category: string,
     description: string,
-    isSelected: boolean
+    contact: string
   } = {
     goodsName: "",
     picture: "",
     category: "",
     description: "",
-    isSelected: false
+    contact: ""
   }
   headers: DataTableHeader[] = [
-    { text: "Goods Name", align: "start", value: "goodsName" },
+    { text: "物品名称", align: "start", value: "goodsName" },
     // { text: "Picture", value: "picture" },
-    { text: "Category", value: "category" },
-    { text: "Wanted (Yes / No)", value: "isSelected" },
+    { text: "分类", value: "category" },
     { text: "Actions", value: "action", sortable: false }
   ]
   goods: Array<{
@@ -129,7 +129,7 @@ export default class Management extends Vue {
     picture: string,
     category: string,
     description: string,
-    isSelected: boolean
+    contact: string
   }> = []
 
   beforeCreate() {
@@ -141,7 +141,7 @@ export default class Management extends Vue {
           picture: item.picture,
           category: item.category,
           description: item.description,
-          isSelected: item.isSelected
+          contact: item.contact
         })
       })
     })
@@ -169,10 +169,10 @@ export default class Management extends Vue {
         this.axios.post(basicUrls.dev + "/goods/deleteGoodsByGoodsId", {
           goodsId: response.data
         }).then(resp => {
-          resp.data == "1" ? alert("delete success") : alert("delete failed")
+          resp.data == "1" ? alert("删除成功") : alert("删除失败")
         })
       })
-    confirm("Are you sure you want to delete this goods") && this.goods.splice(index, 1)
+    confirm("您确定要删除吗") && this.goods.splice(index, 1)
   }
 
   close() {
@@ -189,12 +189,13 @@ export default class Management extends Vue {
           category: this.goods[this.editedIndex].category,
           description: this.goods[this.editedIndex].description,
           picture: this.goods[this.editedIndex].picture,
+          contact: this.goods[this.editedIndex].contact,
           goodsId: response.data
         }).then(r => {
           if (r.data == "1")
-            alert("save success")
+            alert("保存成功")
           else
-            alert("save failed")
+            alert("保存失败")
         })
       })
     this.close()

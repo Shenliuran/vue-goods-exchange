@@ -1,30 +1,31 @@
 <template>
-  <v-app>
-    <!-- <home/> -->
-    <router-view></router-view>
+  <v-app> 
+    <router-view ></router-view>
   </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
 export default Vue.extend({
-  name: 'App',
+  name: "App",
+  components: {},
 
-  components: {
-  },
-
-  created ()  {
+  created() {
     if (sessionStorage.getItem("store"))
-      this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(String(sessionStorage.getItem("store")))))
+      this.$store.replaceState(
+        Object.assign(
+          {},
+          this.$store.state,
+          JSON.parse(String(sessionStorage.getItem("store")))
+        )
+      );
 
     window.addEventListener("beforeunload", () => {
-      sessionStorage.setItem("store", JSON.stringify(this.$store.state))
-    })
-  },
-
-  data: () => ({
-    //
-  }),
+      sessionStorage.setItem("store", JSON.stringify(this.$store.state));
+    });
+  }
 });
 </script>
+
+<style lang="stylus"></style>

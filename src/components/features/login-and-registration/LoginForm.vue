@@ -103,7 +103,7 @@ export default class LoginForm extends Vue{
           this.$router.push({
             path: "/empty"
           })
-          alert("Welcome " + $up.getUsername)
+          alert($up.getUsername + " 欢迎")
         })
       }
     })

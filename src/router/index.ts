@@ -61,10 +61,10 @@ const routes: RouteConfig[] = [
         meta: { title: "management" }
       },
       {
-        path: "/normal-user/notification",
-        name: "notification",
-        component: () => import("../components/features/management/normal/Notification.vue"),
-        meta: { title: "notification" }
+        path: "/normal-user/shopping",
+        name: "shopping",
+        component: () => import("../components/features/management/normal/Shopping.vue"),
+        meta: { title: "shopping list" }
       }
     ]
   },

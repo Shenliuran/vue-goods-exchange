@@ -1,4 +1,6 @@
 <template>
+<v-app>
+  <v-container>
   <v-data-table
     :headers="headers"
     :items="goods"
@@ -7,7 +9,7 @@
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title>
-          物品管理
+          购物车
         </v-toolbar-title>
         <v-divider
           class="mx-4"
@@ -17,11 +19,15 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
-            <v-card-title>修改</v-card-title>
+            <v-card-title>详细信息</v-card-title>
             
             <v-card-text>
               <v-container>
-                <v-text-field v-model="editedItem.goodsName" label="物品名称"></v-text-field>
+                <v-text-field
+                  v-model="editedItem.goodsName"
+                  label="物品名称"
+                  disabled
+                ></v-text-field>
                 <span>图片</span>
                 <div class="image_frame">
                   <img
@@ -34,8 +40,9 @@
                 <v-file-input
                   type="file"
                   id="input"
-                  messages="choose only one picture"
+                  messages="只能添加一张照片"
                   @change="echo"
+                  disabled
                 >
                 </v-file-input>
                 <v-select
@@ -45,13 +52,16 @@
                   disabled
                 ></v-select>
                 <v-textarea
-                  v-model="editedItem.contact"
-                  label="联系方式"
+                  v-model="editedItem.description"
+                  label="物品描述"
                   aria-multiline
+                  disabled
                 ></v-textarea>
                 <v-textarea
                   v-model="editedItem.description"
-                  label="物品描述"
+                  label="联系方式"
+                  aria-multiline
+                  disabled
                 ></v-textarea>
               </v-container>
             </v-card-text>
@@ -64,12 +74,19 @@
               >
                 取消
               </v-btn>
+              
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-toolbar>
     </template>
     <template v-slot:item.action="{ item }">
+      <v-btn
+        text
+        @click="want(item)"
+      >
+        want
+      </v-btn>
       <v-icon
         small
         @click="editItem(item)"
@@ -86,7 +103,10 @@
     <template v-slot:no-data>
       <span>无数据</span>
     </template>
+
   </v-data-table>
+  </v-container>
+</v-app>
 </template>
 
 <script lang="ts">
@@ -99,7 +119,6 @@ import UserProfile from '../../../../store/modules/userProfile'
 const $up = getModule(UserProfile)
 @Component
 export default class Management extends Vue {
-  categories: string[] = ["Book", "Digital", "Health/Makeup", "Clothes", "Sports", "Foods" ]
   dialog: boolean = false
   editedIndex: number = -1
   editedItem: {
@@ -117,7 +136,6 @@ export default class Management extends Vue {
   }
   headers: DataTableHeader[] = [
     { text: "物品名称", align: "start", value: "goodsName" },
-    // { text: "Picture", value: "picture" },
     { text: "分类", value: "category" },
     { text: "编辑", value: "action", sortable: false }
   ]
@@ -129,9 +147,19 @@ export default class Management extends Vue {
     description: string,
     contact: string
   }> = []
+  myGoods: Array<{
+    goodsName: string,
+    category: string,
+  }> = []
+  showMyGoods: boolean = false
+  header: DataTableHeader[] = [
+    { text: "商品名称", align: "start", value: "goodsName" },
+    { text: "分类", value: "category" },
+    { text: "Actions", value: "action", sortable: false }
+  ]
 
   beforeCreate() {
-    this.axios.get(basicUrls.dev + "/goods/allGoods").then(response => {
+    this.axios.get(basicUrls.dev + "/shoppingCar/getShoppingCarByUserId?userId=" + $up.getUserId).then(response => {
       let buf: Array<any> = response.data
       buf.forEach(item => {
         this.goods.push({
@@ -161,16 +189,55 @@ export default class Management extends Vue {
   }
   deleteItem(item: any) {
     const index = this.goods.indexOf(item)
-    this.axios.post(basicUrls.dev + "/goods/deleteGoodsByGoodsId", {
-      goodsId: item.goodsId
-    }).then(resp => {
-      resp.data == "1" ? alert("删除成功") : alert("删除失败")
+    console.log(item.goodsId)
+    this.axios.get(basicUrls.dev + "/shoppingCar/deleteShoppingCar?goodsId="
+     + item.goodsId + "&userId=" + $up.getUserId).then(resp => {
+      alert("删除成功")
     })
     confirm("你确定要删除吗？") && this.goods.splice(index, 1)
   }
 
+  want(item: {
+    goodsName: string,
+    goodsId: number,
+    ownerId: number,
+    ownerName: string
+  }) {
+    console.log(item)
+    console.log($up.getUserId)
+    this.axios.post(basicUrls.dev + "/transaction/addTransaction", {
+      goodsName: item.goodsName,
+      goodsId: item.goodsId,
+      sponsorId: $up.getUserId,
+      receiverId: item.ownerId,
+      receiverName: item.ownerName,
+      sponsorName: $up.getUsername
+    })
+    alert("购入成功，等待对方确认...");
+    this.dialog = false
+    this.axios.get(basicUrls.dev + "/goods/findGoodsByOwnerId?ownerId="
+      + $up.getUserId).then(response => {
+        let buf: Array<any> = response.data
+          buf.forEach(item => {
+            this.myGoods.push({
+              goodsName: item.goodsName,
+              category: item.category,
+            })
+        })
+    })
+  }
+
   close() {
     this.dialog = false
+  }
+
+  deliver(item: {
+    goodsName: string,
+    goodsId: number,
+    ownerId: number,
+    ownerName: string
+  }) {
+    alert("等待对方确认...")
   }
 }
 </script>

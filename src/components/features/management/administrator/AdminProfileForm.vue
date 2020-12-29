@@ -32,7 +32,7 @@
                 >
                   <v-text-field
                     class="purple-input"
-                    label="User Name"
+                    label="用户名"
                     v-model="username"
                   />
                 </v-flex>
@@ -41,7 +41,7 @@
                   md4
                 >
                   <v-text-field
-                    label="Email Address"
+                    label="邮箱"
                     class="purple-input"
                     v-model="email"
                   />
@@ -51,7 +51,7 @@
                   md6
                 >
                   <v-text-field
-                    label="First Name"
+                    label="名"
                     class="purple-input"
                     v-model="firstName"
                   />
@@ -61,7 +61,7 @@
                   md6
                 >
                   <v-text-field
-                    label="Last Name"
+                    label="姓"
                     class="purple-input"
                     v-model="lastName"
                   />
@@ -71,7 +71,7 @@
                   md12
                 >
                   <v-text-field
-                    label="Address"
+                    label="地址"
                     class="purple-input"
                     v-model="address"
                   />
@@ -80,7 +80,7 @@
                   xs12
                   md4>
                   <v-text-field
-                    label="City"
+                    label="所在城市"
                     class="purple-input"
                     v-model="city"
                   />
@@ -89,7 +89,7 @@
                   xs12
                   md4>
                   <v-text-field
-                    label="Country"
+                    label="所在国家"
                     class="purple-input"
                     v-model="country"
                   />
@@ -99,13 +99,13 @@
                   md4>
                   <v-text-field
                     class="purple-input"
-                    label="Postal Code"
+                    label="邮箱"
                     type="number"/>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
                     class="purple-input"
-                    label="Password"
+                    label="密码"
                     v-model="password"
                   />
                 </v-flex>
@@ -118,17 +118,17 @@
                     color="success"
                     @click="updateProfile"
                   >
-                    Update Profile
+                    更新用户信息
                   </v-btn>
                   <v-snackbar
                     top
                     v-model="snackbar"
                   >
-                    update successful
+                    更新成功
                     <v-btn
                       @click="snackbar = !snackbar"
                     >
-                      Close
+                      取消
                     </v-btn>
                   </v-snackbar>
                 </v-flex>
@@ -156,7 +156,7 @@
               rounded
               class="font-weight-light"
               @click="logout"
-            >Logout</v-btn>
+            >登出</v-btn>
           </v-card-text>
         </v-card>
       </v-flex>

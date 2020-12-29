@@ -20,7 +20,7 @@
           id="title"
         >
           <v-spacer/>
-          Add Your Goods
+          请添加物品
           <v-spacer/>
         </v-card-title>
         <v-form>
@@ -53,7 +53,7 @@
                 md3
               >
                 <v-text-field
-                  label="Goods Name"
+                  label="物品名称"
                   class="purple-input"
                   v-model="goodsName"
                 />
@@ -66,9 +66,19 @@
                 <v-select
                   :items="categories"
                   chips
-                  label="Category"
+                  label="分类"
                   v-model="choice"
                 ></v-select>
+              </v-flex>
+              <v-flex
+                xs12
+                md3
+              >
+                <v-text-field
+                  label="联系方式"
+                  class="purple-input"
+                  v-model="contact"
+                />
               </v-flex>
             </v-layout>
             <v-layout wrap>
@@ -79,7 +89,7 @@
               <v-input
                 disabled
               >
-                Description
+                描述
               </v-input>
               <v-textarea
                 aria-multiline
@@ -114,6 +124,7 @@ export default class AdditionForm extends Vue {
   choice: string = ""//the goods categories be chosen by user
   picture: string = ""// the photo be chosen by user
   description: string = ""// the goods' description
+  contact: string = ""
 
   submit() {
     this.axios.post(basicUrls.dev + "/goods/addGoods", {
@@ -122,12 +133,13 @@ export default class AdditionForm extends Vue {
       picture: this.picture,
       ownerId: $up.getUserId,
       category: this.choice,
-      description: this.description
+      description: this.description,
+      contact: this.contact
     }).then(response => {
       if (response.data == "1")
-        alert("success")
+        alert("成功")
       else
-        alert("failed")
+        alert("失败")
     })
   }
   //echo the local photo

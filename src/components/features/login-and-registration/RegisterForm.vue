@@ -23,27 +23,27 @@
         <v-text-field
           prepend-icon="mdi-account"
           type="text"
-          label="name"
-          name="name"
+          label="用户名"
+          name="用户名"
           v-model="username"
         />
         <v-text-field
           prepend-icon="mdi-lock-question"
           type="text"
-          label="password"
-          name="password"
+          label="密码"
+          name="密码"
           v-model="password"
         />
         <v-text-field
           prepend-icon="mdi-lock"
           type="text"
-          label="confirm password"
-          name="confirm password"
+          label="密码"
+          name="确认密码"
           v-model="confirmPassword"
         />
         <v-select
           :items="authorities"
-          label="Authority"
+          label="权限"
           v-model="choice"
         >
         </v-select>
@@ -84,8 +84,10 @@ export default class RegisterForm extends Vue {
 
   //click event
   onRegisterClick() {
-    if (this.password != this.confirmPassword)
-      alert("The two passwords you entered did not match")
+    if (this.password == "" || this.confirmPassword == "")
+      alert("密码为空")
+    else if (this.password != this.confirmPassword)
+      alert("两次密码不匹配")
     else {
       $up.setBasicUserProfile({
         username: this.username,
@@ -101,22 +103,25 @@ export default class RegisterForm extends Vue {
         authority: this.authority,
       }).then(response => {
         if (response.data == "1") {
-          alert("register successfully")
+          alert("注册成功")
           this.axios.get(basicUrls.dev + "/user/getUserIdByUsernameAndPassword?username=" +
             this.username + "&password=" + this.password).then(response => {
               $up.setUserId(response.data)
             })
-        } else
-          alert("username is already existing")
+          if (this.choice == "normal")
+            $us.setStatus($cus.getNormal)
+          else
+            $us.setStatus($cus.getAdministrator)
+          this.$router.push({
+            path: "/empty"
+          })
+          alert($up.getUsername + " 欢迎")
+        } else {
+            alert("用户名已存在")
+        }
       })
-      if (this.choice == "normal")
-        $us.setStatus($cus.getNormal)
-      else
-        $us.setStatus($cus.getAdministrator)
-      this.$router.push({
-        path: "/empty"
-      })
-      alert("Welcome " + $up.getUsername)
+
+
     }
   }
   @Emit("registeringBackListener")

@@ -7,7 +7,7 @@
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title>
-          User Management
+          用户管理
         </v-toolbar-title>
         <v-divider
           class="mx-4"
@@ -17,53 +17,53 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
-            <v-card-title>Modify</v-card-title>
+            <v-card-title>修改</v-card-title>
             
             <v-card-text>
               <v-container>
                 <v-text-field
                   v-model="editedItem.userID"
-                  label="User ID"
+                  label="用户ID"
                   disabled
                 ></v-text-field>
                 <v-text-field
                   v-model="editedItem.username"
-                  label="Username"
+                  label="用户名"
                   disabled
                 ></v-text-field>
                 <v-text-field
                   v-model="editedItem.password"
-                  label="Password"
+                  label="密码"
                   disabled
                 ></v-text-field>
                 <v-text-field
                   v-model="editedItem.firstName"
-                  label="First Name"
+                  label="名"
                   disabled
                 ></v-text-field>
                 <v-text-field
                   v-model="editedItem.lastName"
-                  label="Last Name"
+                  label="姓"
                   disabled
                 ></v-text-field>
                 <v-text-field
                   v-model="editedItem.email"
-                  label="Email"
+                  label="邮箱"
                   disabled
                 ></v-text-field>
                 <v-text-field
                   v-model="editedItem.address"
-                  label="Address"
+                  label="地址"
                   disabled
                 ></v-text-field>
                 <v-text-field
                   v-model="editedItem.city"
-                  label="City"
+                  label="所在城市"
                   disabled
                 ></v-text-field>
                 <v-text-field
                   v-model="editedItem.country"
-                  label="Country"
+                  label="所在国家"
                   disabled
                 ></v-text-field>
               </v-container>
@@ -75,7 +75,7 @@
                 text
                 @click="close"
               >
-                Cancel
+                取消
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -97,7 +97,7 @@
       </v-icon>
     </template>
     <template v-slot:no-data>
-      <span>No Data</span>
+      <span>无数据</span>
     </template>
   </v-data-table>
 </template>
@@ -138,11 +138,11 @@ export default class Management extends Vue {
     authority: ""
   }
   headers: DataTableHeader[] = [
-    { text: "User ID",value: "userId" },
-    { text: "Username", align: "start", value: "username" },
-    { text: "Role", value: "authority" },
-    { text: "Password", value: "password" },
-    { text: "Actions", value: "action", sortable: false }
+    { text: "用户ID",value: "userId" },
+    { text: "用户名", align: "start", value: "username" },
+    { text: "权限", value: "authority" },
+    { text: "密码", value: "password" },
+    { text: "编辑", value: "action", sortable: false }
   ]
   users: Array<{
     userId: number,
@@ -186,9 +186,9 @@ export default class Management extends Vue {
     this.axios.post(basicUrls.dev + "/user/deleteUserByUserId", {
       userId: item.userId
     }).then(resp => {
-      resp.data == "1" ? alert("delete success") : alert("delete failed")
+      resp.data == "1" ? alert("删除成功") : alert("删除失败")
     })
-    confirm("Are you sure you want to delete this goods") && this.users.splice(index, 1)
+    confirm("您确定要删除吗") && this.users.splice(index, 1)
   }
 
   close() {

@@ -64,7 +64,7 @@
                     </v-list-item-action>
                     <v-list-item-content>
                       <v-list-item-title>
-                        Back
+                        返回
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -128,27 +128,27 @@ export default class NormalUser extends Vue {
     {
       to: "/normal-user/user-profile-form",
       icon: "mdi-account",
-      text: "User Profile"
+      text: "用户信息"
     },
     {
       to: "/normal-user/addition-form",
       icon: "mdi-file-plus",
-      text: "Add Goods"
+      text: "添加物品"
     },
     {
       to: "/normal-user/history",
       icon: "mdi-history",
-      text: "History"
+      text: "交易历史"
     },
     {
       to: "/normal-user/management",
       icon: "mdi-update",
-      text: "Goods Management"
+      text: "物品管理"
     },
     {
-      to: "/normal-user/notification",
+      to: "/normal-user/shopping",
       icon: "mdi-bell",
-      text: "Notification"
+      text: "购物车"
     },
   ]
 

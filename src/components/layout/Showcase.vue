@@ -37,12 +37,12 @@
           <v-card-text>
             <v-text-field
               v-model="item.goodsName"
-              label="Goods Name"
+              label="物品名称"
               disabled
             ></v-text-field>
             <v-text-field
               v-model="item.ownerName"
-              label="Owner"
+              label="拥有者"
               disabled
             ></v-text-field>
           </v-card-text>
@@ -61,22 +61,27 @@
               class="img"
             />
             <v-text-field
-              label="Goods Name"
+              label="物品名称"
               v-model="editedItem.goodsName"
               disabled
             ></v-text-field>
             <v-text-field
-              label="Owner Name"
+              label="拥有者"
               v-model="editedItem.ownerName"
               disabled
             ></v-text-field>
             <v-text-field
-              label="Category"
+              label="分类"
               v-model="editedItem.category"
               disabled
             ></v-text-field>
+            <v-text-field
+              label="联系方式"
+              v-model="editedItem.contact"
+              disabled
+            ></v-text-field>
             <v-textarea
-              label="Description"
+              label="描述"
               v-model="editedItem.description"
               disabled
             ></v-textarea>
@@ -84,15 +89,56 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="close" text >Cancel</v-btn>
+            <v-btn @click="close" text >取消</v-btn>
             <v-btn
               v-show="isMyGoods(editedItem)"
               @click="want(editedItem)"
               text
             >Want</v-btn>
+            <v-btn
+              v-show="isMyGoods(editedItem)"
+              @click="insertShoppingCar(editedItem)"
+            >添加购物车</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
+<!--  -->
+      <v-dialog
+        v-model="showMyGoods"
+      >
+        <v-container>
+        <v-data-table
+          :headers="header"
+          :items="myGoods"
+          class="elevation-1"
+        >
+        <template v-slot:top>
+          <v-toolbar flat>
+            <v-toolbar-title>
+              我的商品
+            </v-toolbar-title>
+            <v-divider
+              class="mx-4"
+              inset
+              vertical
+            ></v-divider>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+        </template>
+        <template v-slot:item.action="{ item }">
+          <v-btn
+            text
+            small
+            @click="deliver(item)"
+          >选择</v-btn>
+        </template>
+        <template v-slot:no-data>
+          <span>No Data</span>
+        </template>
+        </v-data-table>
+      </v-container>
+      </v-dialog>
+<!--  -->
       <v-pagination
         v-model="page"
         :value="page"
@@ -113,6 +159,7 @@ import { getModule } from 'vuex-module-decorators'
 import UserStatus from '../../store/modules/userStatus'
 import { ConstUserStatus } from '../../store/modules/globalConst'
 import UserProfile from '../../store/modules/userProfile'
+import { DataTableHeader } from 'vuetify'
 
 const $us = getModule(UserStatus)
 const $cus = getModule(ConstUserStatus)
@@ -129,6 +176,12 @@ export default class Showcase extends Vue {
     required: false
   })
   keyword!: string
+  showMyGoods: boolean = false
+  header: DataTableHeader[] = [
+    { text: "商品名称", align: "start", value: "goodsName" },
+    { text: "分类", value: "category" },
+    { text: "Actions", value: "action", sortable: false }
+  ]
 
   editedIndex: number = -1
   editedItem: {
@@ -136,13 +189,13 @@ export default class Showcase extends Vue {
     picture: string,
     category: string,
     description: string,
-    isSelected: boolean
+    contact: string
   } = {
     goodsName: "",
     picture: "",
     category: "",
     description: "",
-    isSelected: false
+    contact: ""
   }
   page: number = 1
   pageSize: number = 18
@@ -153,6 +206,11 @@ export default class Showcase extends Vue {
     picture: string,
     category: string,
     description: string
+    contact: string
+  }> = []
+  myGoods: Array<{
+    goodsName: string,
+    category: string,
   }> = []
   test() {
     this.goods = require("../../../src/test/testingGoods.json")
@@ -173,6 +231,7 @@ export default class Showcase extends Vue {
       picture: string,
       category: string,
       description: string
+      contact: string
     }> = []
     if (str) {
       resultSet = this.goods.filter(item => {
@@ -188,10 +247,12 @@ export default class Showcase extends Vue {
       picture: string,
       category: string,
       description: string
+      contact: string
     }> = []
     this.goods.forEach(elem => {
-      if (elem.category == this.categoryRecord.text)
+      if (elem.category == this.categoryRecord.text) {
         resultSet.push(elem)
+      }
     })
     if (resultSet.length == 0 || this.categoryRecord.text == "All")
       return this.goods
@@ -219,6 +280,7 @@ export default class Showcase extends Vue {
   }
   close() {
     this.dialog = false
+    this.showMyGoods = false
   }
   want(item: {
     goodsName: string,
@@ -226,18 +288,53 @@ export default class Showcase extends Vue {
     ownerId: number,
     ownerName: string
   }) {
+    console.log(item)
+    console.log($up.getUserId)
     if ($us.getStatus.text == $cus.getIsNotLogin.text)
-      alert("You have not login")
+      alert("您还没有登录")
     else {
       this.axios.post(basicUrls.dev + "/transaction/addTransaction", {
         goodsName: item.goodsName,
         goodsId: item.goodsId,
-        sponsorId: item.ownerId,
-        receiverId: $up.getUserId,
-        receiverName: item.ownerName,
-        sponsorName: $up.getUsername
+        receiverId: item.ownerId,
+        sponsorId: $up.getUserId,
+        sponsorName: $up.getUsername,
+        receiverName: item.ownerName
       })
+      alert("购入成功，等待对方确认...");
+      this.axios.get(basicUrls.dev + "/goods/findGoodsByOwnerId?ownerId="
+      + $up.getUserId).then(response => {
+        let buf: Array<any> = response.data
+          buf.forEach(item => {
+            this.myGoods.push({
+              goodsName: item.goodsName,
+              category: item.category,
+            })
+        })
+    })
       this.dialog = false
+      this.showMyGoods = true
+    }
+  }
+  deliver(item: {
+    goodsName: string,
+    goodsId: number,
+    ownerId: number,
+    ownerName: string
+  }) {
+    alert("等待对方确认...")
+  }
+  insertShoppingCar(item: any) {
+    if ($us.getStatus.text == $cus.getIsNotLogin.text)
+      alert("您还没有登录")
+    else {
+      console.log(item.goodsId)
+      this.axios.post(basicUrls.dev + "/shoppingCar/insertShoppingCar", {
+        goodsId: item.goodsId,
+        userId: $up.getUserId
+      }).then(resp => {
+        alert("添加成功");
+      })
     }
   }
   isMyGoods(item: any) {
